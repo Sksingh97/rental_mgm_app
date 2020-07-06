@@ -19,6 +19,7 @@
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* rental_mgm_appTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* rental_mgm_appTests.m */; };
 		43F7B2F4EBE3EDFBCF86C701 /* libPods-rental_mgm_app-rental_mgm_appTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 05F5C18F728CC018F8AE1A80 /* libPods-rental_mgm_app-rental_mgm_appTests.a */; };
+		53C986B924B36A4200BC1FB3 /* libYogaKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53C986B824B36A4200BC1FB3 /* libYogaKit.a */; };
 		6C14E8A5B013FFB9C44E5459 /* libPods-rental_mgm_app-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F59EAADA789BA2B0DDAD3D /* libPods-rental_mgm_app-tvOSTests.a */; };
 /* End PBXBuildFile section */
 
@@ -58,6 +59,7 @@
 		2D02E4901E0B4A5D006451C7 /* rental_mgm_app-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "rental_mgm_app-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		325586D97B0687F9FACBAB7A /* Pods-rental_mgm_app-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rental_mgm_app-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-rental_mgm_app-tvOSTests/Pods-rental_mgm_app-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		36A1711E548A49F9E82AB5BA /* Pods-rental_mgm_app-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rental_mgm_app-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-rental_mgm_app-tvOSTests/Pods-rental_mgm_app-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
+		53C986B824B36A4200BC1FB3 /* libYogaKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libYogaKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		607395D0B731D2974C7DA395 /* Pods-rental_mgm_app-rental_mgm_appTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rental_mgm_app-rental_mgm_appTests.debug.xcconfig"; path = "Target Support Files/Pods-rental_mgm_app-rental_mgm_appTests/Pods-rental_mgm_app-rental_mgm_appTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8B80868618D8329032B839B5 /* Pods-rental_mgm_app-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rental_mgm_app-tvOS.release.xcconfig"; path = "Target Support Files/Pods-rental_mgm_app-tvOS/Pods-rental_mgm_app-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		9D8939387BAA82C723D2CAE7 /* Pods-rental_mgm_app.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rental_mgm_app.release.xcconfig"; path = "Target Support Files/Pods-rental_mgm_app/Pods-rental_mgm_app.release.xcconfig"; sourceTree = "<group>"; };
@@ -82,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53C986B924B36A4200BC1FB3 /* libYogaKit.a in Frameworks */,
 				23CA65EBF922053C0F4BA8DE /* libPods-rental_mgm_app.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -139,6 +142,7 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				53C986B824B36A4200BC1FB3 /* libYogaKit.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				9EC0CA6CA596E539DD45A44C /* libPods-rental_mgm_app.a */,
@@ -194,7 +198,6 @@
 				36A1711E548A49F9E82AB5BA /* Pods-rental_mgm_app-tvOSTests.debug.xcconfig */,
 				325586D97B0687F9FACBAB7A /* Pods-rental_mgm_app-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
