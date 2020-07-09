@@ -1,0 +1,43 @@
+//Api type
+export const API = 'API';
+export const API_START = 'API_START';
+export const API_END = 'API_END';
+export const API_ERROR = 'API_ERROR';
+
+// Login Actions
+export const ON_USER_LOGIN_SUCCESS = 'ON_USER_LOGIN_SUCCESS';
+export const ON_USER_LOGIN_FAILURE = 'ON_USER_LOGIN_FAILURE';
+
+//Google Login Actions
+export const ON_FB_LOGIN_SUCCESS = 'ON_FB_LOGIN_SUCCESS';
+export const ON_FB_LOGIN_FAILURE = 'ON_FB_LOGIN_FAILURE';
+
+//Fb Login Actions
+export const ON_GOOGLE_LOGIN_SUCCESS = 'ON_GOOGLE_LOGIN_SUCCESS';
+export const ON_GOOGLE_LOGIN_FAILURE = 'ON_GOOGLE_LOGIN_FAILURE';
+
+//Signup Action
+export const ON_USER_SIGNUP_SUCCESS = 'ON_USER_SIGNUP_SUCCESS';
+export const ON_USER_SIGNUP_FAILURE = 'ON_USER_SIGNUP_FAILURE';
+
+//Otp Action
+export const VERIFY_OTP_SUCCESS = 'VERIFY_OTP_SUCCESS';
+export const VERIFY_OTP_FAILURE = 'VERIFY_OTP_FAILURE';
+
+export const RESEND_OTP_SUCCESS = 'RESEND_OTP_SUCCESS';
+export const RESEND_OTP_FAILURE = 'RESEND_OTP_FAILURE';
+
+//Reset Pass Otp Action
+export const RESET_PASS_OTP_SUCCESS = 'RESET_PASS_OTP_SUCCESS';
+export const RESET_PASS_OTP_FAILURE = 'RESET_PASS_OTP_FAILURE';
+
+//Reset Pass Action
+export const RESET_PASS_SUCCESS = 'RESET_PASS_SUCCESS';
+export const RESET_PASS_FAILURE = 'RESET_PASS_FAILURE';
+
+
+//Logout Actions
+export const USER_LOGOUT = "USER_LOGOUT"
+export const LOGOUT_SUCCESS_RESPONSE="LOGOUT_SUCCESS_RESPONSE";
+export const LOGOUT_FAILURE_RESPONSE="LOGOUT_FAILURE_RESPONSE";
+

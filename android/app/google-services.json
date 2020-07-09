@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "665536521674",
+    "firebase_url": "https://shelter-of-dream.firebaseio.com",
+    "project_id": "shelter-of-dream",
+    "storage_bucket": "shelter-of-dream.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:665536521674:android:6f0d9ec934df35ce77db33",
+        "android_client_info": {
+          "package_name": "com.rental_mgm_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "665536521674-t08ci83mldldas7c5q34491ub6f0ujgp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWPsNV_XRerklaFSzcJSRkMOaz5_1tnzE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "665536521674-t08ci83mldldas7c5q34491ub6f0ujgp.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "665536521674-t04plljnaqsfdmkqgdogfji34urkpqbt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.rental-mgm-app"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
