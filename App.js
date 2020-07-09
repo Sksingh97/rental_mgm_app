@@ -19,6 +19,7 @@ import Navigation from './src/Navigation';
 import store from './src/Store';
 import { Provider } from 'react-redux'
 import { AppRegistry } from 'react-native';
+import {Main_BackGround} from "./src/Constants/Color"
 
 // Register background handler
 messaging().setBackgroundMessageHandler(async remoteMessage => {
@@ -83,8 +84,8 @@ class App extends React.Component {
   render (){
   return (
     <>
-      {Platform.OS === 'ios' && <StatusBar barStyle="light-content" />}
-      <SafeAreaView style={{flex:1}}>
+      {Platform.OS === 'ios' && <StatusBar barStyle="light-content"/>}
+      <SafeAreaView style={{flex:1,backgroundColor:Main_BackGround}}>
         <Provider store={store}>
           <Navigation/>
         </Provider>

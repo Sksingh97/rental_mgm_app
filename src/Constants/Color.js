@@ -1,0 +1,5 @@
+export const Main_BackGround = "#2A2942"
+export const White = "#fff"
+export const OffWhite = "#D2D2D2"
+export const Gray = "#B7B7B7"
+export const LightPurple = "#5D5AA8"
