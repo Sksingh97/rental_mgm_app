@@ -33,6 +33,14 @@ export default {
         fontSize:15
         // backgroundColor:'red'
     },
+    RongInput:{
+        borderBottomWidth:1,
+        borderBottomColor:Color.Red,
+        padding:0,
+        color:Color.White,
+        fontSize:15
+        // backgroundColor:'red'
+    },
     lable:{
         color:Color.OffWhite
     },
@@ -40,11 +48,12 @@ export default {
         flexDirection:'row'
     },
     Country:{
-        width:'12%'
+        width:'11%'
     },
     Phone:{
-        marginLeft:4,
-        width:'78%'
+        marginLeft:6,
+        // backgroundColor:'red',
+        width:'87%'
     },
     SubmitButtonContainer:{
         marginTop:40,

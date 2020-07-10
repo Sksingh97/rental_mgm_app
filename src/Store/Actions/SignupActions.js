@@ -25,45 +25,50 @@ export const onSignupFailureAction = (data) => {
 //============================= signup request api===================//
 
 //POST REQUEST
-export const hitSignupApi = (emailId, name, phone, countryCode, password) =>
+export const hitSignupApi = ({name, email, country_code, phone, password}) =>
     (dispatch) => {   
         return new Promise((resolve, reject) => {
 
             var data = new FormData();
 
             const parameters = {
-                email: emailId,
-                name: name,
-                phone: phone,
-                country_code: countryCode,
-                password: password,
-                confrm_password: password,
+                email,
+                name,
+                phone,
+                country_code,
+                password,
             }
             
             const apiUrl = ApiEndpoints(SIGNUP)
+            console.log(apiUrl)
             //returns a funtion, not an action object
-            dispatch(ApiSingleton.getInstance().apiActionCall({
-                url: apiUrl,
-                method: "POST",
-                onSuccess: (data) => {
-                    console.log("Success ", data);
-                    dispatch(onSignupSuccessAction(data));
-                    resolve((data));
-
-                },
-                onFailure: (error) => {
-                    console.log("Failure ", data);
-                    dispatch(onSignupFailureAction(data));
-                    reject(error)
-
-                },
-                label: SIGNUP,
-                data: parameters,
-                headersOverride: {
-                    app_language: 'en',
-                    app_version: '1.0',
-                }
-            }));
+            try{
+                dispatch(ApiSingleton.getInstance().apiActionCall({
+                    url: apiUrl,
+                    method: "POST",
+                    onSuccess: (data) => {
+                        console.log("Success ", data);
+                        dispatch(onSignupSuccessAction(data));
+                        resolve((data));
+    
+                    },
+                    onFailure: (error) => {
+                        console.log("Failure ", data);
+                        dispatch(onSignupFailureAction(data));
+                        reject(error)
+    
+                    },
+                    label: SIGNUP,
+                    data: parameters,
+                    headersOverride: {
+                        app_language: 'en',
+                        app_version: '1.0',
+                    }
+                }));
+            }catch(e){
+                console.log("Dispatch error")
+            }
+            
 
 
         });

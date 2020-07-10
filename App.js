@@ -10,6 +10,7 @@ import React, { useState, useEffect } from 'react';
 import {
   SafeAreaView,
   StatusBar,
+  View,
 } from 'react-native';
 import messaging from '@react-native-firebase/messaging';
 
@@ -20,14 +21,12 @@ import store from './src/Store';
 import { Provider } from 'react-redux'
 import { AppRegistry } from 'react-native';
 import {Main_BackGround} from "./src/Constants/Color"
+import {Appearance} from 'react-native-appearance';
+import AppUser from './src/Singleton/AsyncStorage';
+import FirebaseSingleton from './src/Singleton/Firebase'
 
-// Register background handler
-messaging().setBackgroundMessageHandler(async remoteMessage => {
-  console.log('Message handled in the background!',Platform.OS, remoteMessage);
-});
-
-AppRegistry.registerComponent('app', () => App);
-
+let Firebase = FirebaseSingleton.getInstance()
+let AppAsync = AppUser.getInstance()
 const deviceLanguage =
       Platform.OS === 'ios'
         ? NativeModules.SettingsManager.settings.AppleLocale ||
@@ -36,50 +35,31 @@ const deviceLanguage =
 
 console.log(deviceLanguage); //en_US
 
+
 store.subscribe(() => {
   console.log("NEW STAT : ", store.getState());
 })
 
+
 class App extends React.Component {
   
   async componentDidMount() {
+    AppAsync.setInstance()
+    Firebase.FirebaseInit()
+    Firebase.backGroundHandler()
+    await this.setupColorScheme();
     // do stuff while splash screen is shown
-      // After having done stuff (such as async tasks) hide the splash screen
-      SplashScreen.hide();
-      this.requestUserPermission();
-      this.un_subscriber = this.requrstHandler()
-      // let msg = await messaging().registerDeviceForRemoteMessages();
-        // console.log("MESSAGE : : : ",msg)
-        let fcmToken = await AsyncStorage.getItem('fcmToken');
-        if (!fcmToken) {
-            fcmToken = await messaging().getToken();
-            if (fcmToken) {
-                // user has a device token
-                await AsyncStorage.setItem('fcmToken', fcmToken);
-            }
-        }
-        console.log("FCM TOKEN : : : ",fcmToken)
+    // After having done stuff (such as async tasks) hide the splash screen
+    SplashScreen.hide();
+      
   }
 
-  async requestUserPermission() {
-    const authStatus = await messaging().requestPermission();
-    const enabled =
-      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-  
-    if (enabled) {
-      console.log('Authorization status:', authStatus);
-    }
-  }
-
-  async requrstHandler(){
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      console.log('A new FCM message arrived!', JSON.stringify(remoteMessage));
-    });
-
-    return unsubscribe;
-  }
-  
+  async setupColorScheme(){
+    // let colorScheme = await AppAsync.getAsyncData('colorScheme')
+    // if(!colorScheme){
+    //   AppAsync.setAsyncData('colorScheme',Appearance.getColorScheme())
+    // }
+  }  
 
   render (){
   return (

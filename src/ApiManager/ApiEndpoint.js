@@ -1,7 +1,7 @@
 
 //export const BASE_DEV_URL = "";      // 
 //export const BASE_DEV_URL = ""            // aws development
-// export const BASE_DEV_URL = ""       // Production
+export const BASE_DEV_URL = "http://localhost:8000"       // Production
 
 
 // export const GEO_CODER_API = ""
@@ -9,7 +9,7 @@
 const LOGIN_ENDPOINT = "/user/login"
 const GOOGLE_LOGIN_ENDPOINT = "/user/login/gp"
 const FB_LOGIN_ENDPOINT = "/user/login/fb"
-const SIGNUP_ENDPOINT = "/user/signup"
+const SIGNUP_ENDPOINT = "/api/user/register"
 const VERIFY_OTP_ENDPOINT = "/user/verify-otp"
 const RESEND_OTP_ENDPOINT = "/user/resend-otp"
 const RESET_PASS_OTP_ENDPOINT = "/user/reset-password-otp"
