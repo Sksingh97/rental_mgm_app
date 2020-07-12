@@ -1,7 +1,7 @@
 import messaging from '@react-native-firebase/messaging';
 import AppUser from './AsyncStorage';
 import { AppRegistry } from 'react-native';
-import App from '../../App';
+// import App from '../../App';
 let AppAsync = AppUser.getInstance()
 class FirebaseSingleton {
 
@@ -35,11 +35,11 @@ class FirebaseSingleton {
 
     async backGroundHandler(){
         // Register background handler
-        messaging().setBackgroundMessageHandler(async remoteMessage => {
-            console.log('Message handled in the background!', remoteMessage);
-        });
+        // messaging().setBackgroundMessageHandler(async remoteMessage => {
+        //     console.log('Message handled in the background!', remoteMessage);
+        // });
         
-        AppRegistry.registerComponent('app', () => App);
+        // AppRegistry.registerComponent('app', () => App);
     }
 
     async FirebaseInit(){

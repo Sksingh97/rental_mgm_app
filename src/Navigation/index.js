@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Login, SignUp } from '../Screens'
+import { Login, SignUp, Otp } from '../Screens';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -27,6 +27,7 @@ function MyStack() {
     return (
       <Stack.Navigator headerMode="none">
         <Stack.Screen name="signup" component={SignUp} />
+        <Stack.Screen name="Otp" component={Otp}/>
         <Stack.Screen name="login" component={Login} />
       </Stack.Navigator>
     );

@@ -1,8 +1,8 @@
-import AsyncStorage from '@react-native-community/async-storage';
+// import AsyncStorage from '@react-native-community/async-storage';
 import ApiEndpoints from '../../ApiManager/ApiEndpoint'
 import { VERIFY_OTP, RESEND_OTP } from '../../ApiManager/ApiEndpoint'
 import ApiSingleton from '../../ApiManager/ApiSingleton';
-import AppUser from "../../utilities/AppUser";
+// import AppUser from "../../utilities/AppUser";
 import { Platform } from 'react-native';
 
 import {
@@ -60,16 +60,16 @@ console.log("email=>",emailId,"Phone=>",phone,"verificationCode=>",verificationC
                 url: verifyOtpUrl,
                 method: "POST",
                 onSuccess: async (data) => {
-                    let appUsrObj = AppUser.getInstance();
-                    appUsrObj.token = data.user.token;
-                    appUsrObj.userId = data.user.id;
-                    appUsrObj.userDetails = data.user;
+                    // let appUsrObj = AppUser.getInstance();
+                    // appUsrObj.token = data.user.token;
+                    // appUsrObj.userId = data.user.id;
+                    // appUsrObj.userDetails = data.user;
 
-                    const userToken = ["@USER_TOKEN", data.user.token];
-                    const userId = ["@USER_ID", data.user.id.toString()];
-                    const userDetails = ["@USER_DETAILS", JSON.stringify(data.user)];
+                    // const userToken = ["@USER_TOKEN", data.user.token];
+                    // const userId = ["@USER_ID", data.user.id.toString()];
+                    // const userDetails = ["@USER_DETAILS", JSON.stringify(data.user)];
                     try {
-                        await AsyncStorage.multiSet([userToken, userId, userDetails])
+                        // await AsyncStorage.multiSet([userToken, userId, userDetails])
                     } catch (e) {
                         console.log("Error saving user details", e);
                     }

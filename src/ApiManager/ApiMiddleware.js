@@ -1,13 +1,19 @@
 import axios from "axios";
 import AsyncStorage from '@react-native-community/async-storage';
-import Toast from 'react-native-simple-toast';
-import { API } from "../Store/Actions/ActionsTypes";
-import { apiError, apiStart, apiEnd } from './APIAction';
-import { BASE_DEV_URL, UPLOAD_MEDIA, LOGIN } from '../ApiManager/ApiEndpoint';
-import AppUser from "../Utilities/AppUser";
-// import strings from "../res/strings";
-import { getNavigationReference } from "../Utilities/NavigationRef";
+import  Toast from "react-native-simple-toast";
+// import { NavigationActions, StackActions } from 'react-navigation';
+import { API } from "./types";
+import { apiError, apiStart, apiEnd } from "./APIAction";
+// import ApiEndpoint, { BASE_DEV_URL } from "./ApiEndpoint";
+// import { AppNavigationReference } from "../utils/AppNavigation";
+// import { setAppToken } from "../utils/Utils";
+// import AppSingleton from "../helper/AppSingleton";
 
+// import AppUser from "../AppUser";
+// import strings from "../../../res/strings";
+// import { getNavigationReference } from "../Utils";
+
+// var appSingleton = AppSingleton.getInstance();
 
 //--------------- API MIDDLEWARE ------------------//
 
@@ -19,7 +25,6 @@ const ApiMiddleware = ({ dispatch, getState }) => next => action => {
     if (action.type !== API)
         return;
     //3. Extract imp. variables from the action payload
-    console.log("actionPayload", action);
     const {
         url,
         method,
@@ -43,7 +48,7 @@ const ApiMiddleware = ({ dispatch, getState }) => next => action => {
 
 
     //5. Handle Globals/axios default configs
-    axios.defaults.baseURL = BASE_DEV_URL || "";
+    // axios.defaults.baseURL = BASE_DEV_URL || "";
     axios.defaults.headers.common["Content-Type"] = "application/json";
     axios.defaults.headers.common["Authorization"] = `Bearer${accessToken}`;
 
@@ -52,8 +57,6 @@ const ApiMiddleware = ({ dispatch, getState }) => next => action => {
         dispatch(apiStart(label));  // send apiStart action
     }
 
-    console.log("url", url, "method", method, "headers", headers, "headersOverride", headersOverride, "data", data)
-
     //7. Make the actual network request, handle errors, and invoke callbacks
     axios
         .request({
@@ -61,18 +64,16 @@ const ApiMiddleware = ({ dispatch, getState }) => next => action => {
             method,
             headers: headersOverride ? headersOverride : headers,
             [dataOrParams]: data,
+            timeout: 60000
         })
         .then(({ data }) => {
-
-            if (data.sc && data.result != null) {
-                console.log("resopnse= " + JSON.stringify(data))
-                //invalidTokenHandler();
-                dispatch(onSuccess(data.result));  //-> SUCCESS callback
-            } else if (data.status != null && data.status === 'OK') {
-                dispatch(onSuccess(data.results[0]));
-            } else if (data.status != null && data.status == 'ZERO_RESULTS') {
-
-                dispatch(onFailure("No Location Found"));
+            console.log("RESPONSE DATA : : ",data)
+            if (data.result != null) {
+                let action = onSuccess(data.result);
+                if (action) {
+                    dispatch(action);
+                }
+                //-> SUCCESS callback
             } else {
                 this.handleFailure(data)
             }
@@ -97,65 +98,49 @@ const ApiMiddleware = ({ dispatch, getState }) => next => action => {
                  * Check for Invalid Token (errorCode = 5) or Blocked User (errorCode  = 6)
                  * If so then logout user.
                  */
-                // const err = error.response.data.error;
+
+                const err = error.response.data.error;
                 // if (err) {
                 //     const { errorCode } = err;
                 //     if (errorCode == 5) {
                 //         // Invalid Token
-                //         handleFailure(error.response.data);
                 //         invalidTokenHandler();
+                //         return;
+                //     } else if (errorCode == 6) {
+                //         // Blocaed User
+                //         blockedUserHandler();
                 //         return;
                 //     }
                 // }
-                // if (label === LOGIN) {
-                // dispatch(onFailure(error.response.data));
-                // }
-                // else {
-                //     handleFailure(error.response.data)
-                // }
 
-                dispatch(apiError(label, error.response.data)); // send apiError action 
+                handleFailure(error.response.data)
+                dispatch(apiError(label, error.response.data));
 
             } else if (error.request) {
                 // The request was made but no response was received
                 // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
                 // http.ClientRequest in node.js
-
-
-                // if (label === UPLOAD_MEDIA) {
-                //     dispatch(onFailure(error.request._response)); // send apiError action
-                // } else if (error.message === "Network Error") {
-                //     alert("No Internet Connection.Please try again later")
-                // } else {
-                //     console.log(`error.request: `, error.request._response);
-                //     alert(error.request._response)
-                // }
-
-                if (error.message === "Network Error") {
-                    alert("No Internet Connection.Please try again later")
-                    if (label == 'EVENT_CHECKIN' || label == 'EVENT_CHECKIN_STATUS') {
-                        dispatch(onFailure(error.request._response))
-                    }
+                console.log(`error.request: `, error.request._response);
+                handleFailure({ error: { msg: error.request._response, message: error.request._response }});
+                const acti = apiError(label, { error: { msg: error.request._response, message: error.request._response} });
+                if (acti) {
+                    dispatch(acti);
                 }
-
-                // else {
-                //     dispatch(onFailure(error.request._response));
-                // }
-
+                return;
+                //dispatch(apiError(label, error.request)); // send apiError action
             } else {
                 // Something happened in setting up the request that triggered an Error
 
-
-                // if (label === UPLOAD_MEDIA) {
-                //     dispatch(onFailure("Something went wrong")); // send apiError action
-                // }
+                //dispatch(apiError(label, error)); // send apiError action
             }
 
-
-            // if (label === UPLOAD_MEDIA) {
-            dispatch(onFailure(error.response.data.error)); //-> FAILURE callback
-            // }
-
+            // TODO remove it
+            handleFailure(error.response.data)
+            let action = onFailure(error.response.data.error);
+            if (action) {
+                dispatch(action);
+            }
+            
         })
         .finally(() => {
             if (label) {
@@ -164,11 +149,13 @@ const ApiMiddleware = ({ dispatch, getState }) => next => action => {
         });
 
     handleFailure = (data) => {
-        //dispatch(onFailure(data))
+        let action = onFailure(data.error);
+        if (action) {
+            dispatch(action);
+        }
         let errorMessage = data.error.msg;
         if (errorMessage != null && errorMessage != '') {
             Toast.show(errorMessage)
-            
         }
 
     }
@@ -178,7 +165,17 @@ const ApiMiddleware = ({ dispatch, getState }) => next => action => {
 
 
 const clearAsyncStorageData = async () => {
-    const keys = ["@USER_TOKEN", "@USER_ID", "@USER_DETAILS", "@PREF_LOCATIONS", "@EVENT_CHECKIN_ID", "@IS_USER_CHECKEDIN"];
+    let emailId=""
+    try{
+           emailId= await AsyncStorage.getItem("email","")
+        //    setAppToken("", "");
+           await AsyncStorage.clear();
+           await AsyncStorage.setItem("email",emailId)
+    }
+    catch{
+
+    }
+    const keys = ["@USER_TOKEN", "@USER_ID", "@USER_DETAILS"];
     try {
         await AsyncStorage.multiRemove(keys)
     } catch (e) {
@@ -187,39 +184,55 @@ const clearAsyncStorageData = async () => {
 };
 
 const clearAppUserObject = () => {
-    let appUsrObj = AppUser.getInstance();
-    appUsrObj.token = undefined;
-    appUsrObj.userId = undefined;
-    appUsrObj.userDetails = undefined;
+    // let appUsrObj = AppUser.getInstance();
+    // appUsrObj.token = undefined;
+    // appUsrObj.userId = undefined;
+    // appUsrObj.userDetails = undefined;
+
+    // appSingleton.userId = "";
+    // appSingleton.userToken = "";
+    // appSingleton.id = 0;
+    // appSingleton.c = "";
+    // appSingleton.email = "";
+    // appSingleton.client_id = "";
+    // appSingleton.user = "";
+    // appSingleton.twillioToken = "";
+    // appSingleton.fcmToken = "";
+    // appSingleton.hospitalName = "";
+    // appSingleton.hospitalId = 0;
+    // appSingleton.hospitalImageUrl = "";
+    // appSingleton.hospitalVirtualPhone = "";
 };
 
-const resetStack = () => {
-    const navigation = getNavigationReference();
-    // const resetAction = StackActions.reset({
-    //     index: 0,
-    //     actions: [
-    //         // NavigationActions.navigate({
-    //         //     routeName: "login",
-    //         // })
-    //     ]
-    // });
-    if (navigation) {
-        navigation.dispatch(resetAction);
-    }
-};
+// const resetStack = async() => {
+//     var emailId=""
+//     try {    
+//        emailId= await AsyncStorage.getItem("email","")
+  
+//     if (AppNavigationReference) {
+//       const resetAction = StackActions.reset({
+//         index: 0,
+//         actions: [NavigationActions.navigate({ routeName: "WelcomeScreen" })]
+//       });
+//       AppNavigationReference.dispatch(resetAction);
+//     }
+//   }
+//   catch{
+//   }
+// };
 
 function invalidTokenHandler() {
-    Toast.show(strings.invalid_token, Toast.LONG);
+    // Toast.show(strings.invalid_token, Toast.LONG);
     clearAsyncStorageData();
     clearAppUserObject();
-    resetStack();
+    // resetStack();
 }
 
 function blockedUserHandler() {
-    Toast.show(strings.blocked_user, Toast.LONG);
+    // Toast.show(strings.blocked_user, Toast.LONG);
     clearAsyncStorageData();
     clearAppUserObject();
-    resetStack();
+    // resetStack();
 }
 
 

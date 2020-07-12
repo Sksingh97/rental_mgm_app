@@ -2,7 +2,7 @@ import {
     API_START,
     API_END,
     API_ERROR
-} from '../Store/Actions/ActionsTypes';
+} from './types';
 
 export const apiStart = label => ({
     type: API_START,

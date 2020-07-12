@@ -64,6 +64,16 @@ class SignUp extends React.Component{
         
     }
 
+    onSuccess = (data) => {
+        console.log("Data On Succes", data, "Phone", this.state.phone);
+        this.props.navigation.navigate('Otp',
+            {
+                countryCode: this.state.countryCode,
+                phone: this.state.phone,
+                email: this.state.email,
+            });
+    }
+
     create_account(){
         this.setState({
             attempt:true
@@ -81,7 +91,7 @@ class SignUp extends React.Component{
                     this.props.hitSignupApi(this.state)
                     .then(
                         (data) => {
-                            // this.onSuccess(data);
+                            this.onSuccess(data);
                             console.log("REsponse : : : ",data)
                             Toast.show("Login Success")
                         }
@@ -90,7 +100,7 @@ class SignUp extends React.Component{
                         if (error.msg) {
                             Toast.show(error.msg)
                         } else {
-                            Toast.show(strings.wentWrong)
+                            Toast.show("strings.wentWrong")
                         }
                         this.setState({
                             password:old_password,

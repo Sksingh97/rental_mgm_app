@@ -1,4 +1,5 @@
-import { API } from '../Store/Actions/ActionsTypes';
+
+import { API } from './types';
 
 let instance = null;
 

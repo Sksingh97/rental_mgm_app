@@ -37,7 +37,6 @@ export default (state = INITIAL_STATE, action) => {
                 apiLables: state.apiLables.filter(val => val != action.payload)
             };
         case API_ERROR:
-            console.log("API ERROR : : : ",action)
             try {
                 let errorMsg = 'API Error / Something went wrong!';
 

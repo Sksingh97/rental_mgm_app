@@ -1,4 +1,3 @@
-
 // for type-scripting
 import PropTypes from 'prop-types';
 
