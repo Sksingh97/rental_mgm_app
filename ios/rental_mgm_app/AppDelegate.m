@@ -5,6 +5,7 @@
 #import <React/RCTRootView.h>
 #import "RNSplashScreen.h"
 #import <Firebase.h>
+#import <RNGoogleSignin/RNGoogleSignin.h>
 
 #if DEBUG
 #import <FlipperKit/FlipperClient.h>
@@ -61,4 +62,7 @@ static void InitializeFlipper(UIApplication *application) {
 #endif
 }
 
+- (BOOL)application:(UIApplication *)application openURL:(nonnull NSURL *)url options:(nonnull NSDictionary<NSString *,id> *)options {
+  return [RNGoogleSignin application:application openURL:url options:options];
+}
 @end

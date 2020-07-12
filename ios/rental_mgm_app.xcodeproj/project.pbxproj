@@ -21,6 +21,7 @@
 		43F7B2F4EBE3EDFBCF86C701 /* libPods-rental_mgm_app-rental_mgm_appTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 05F5C18F728CC018F8AE1A80 /* libPods-rental_mgm_app-rental_mgm_appTests.a */; };
 		53C986B924B36A4200BC1FB3 /* libYogaKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 53C986B824B36A4200BC1FB3 /* libYogaKit.a */; };
 		53C986C124B4EE2A00BC1FB3 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 53C986C024B4EE2A00BC1FB3 /* GoogleService-Info.plist */; };
+		53D3A8AC24BB424600B2FB66 /* small.png in Resources */ = {isa = PBXBuildFile; fileRef = 53D3A8AB24BB424600B2FB66 /* small.png */; };
 		6C14E8A5B013FFB9C44E5459 /* libPods-rental_mgm_app-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B2F59EAADA789BA2B0DDAD3D /* libPods-rental_mgm_app-tvOSTests.a */; };
 /* End PBXBuildFile section */
 
@@ -62,6 +63,8 @@
 		36A1711E548A49F9E82AB5BA /* Pods-rental_mgm_app-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rental_mgm_app-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-rental_mgm_app-tvOSTests/Pods-rental_mgm_app-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		53C986B824B36A4200BC1FB3 /* libYogaKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libYogaKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		53C986C024B4EE2A00BC1FB3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		53D3A8AB24BB424600B2FB66 /* small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = small.png; sourceTree = "<group>"; };
+		53D3A8AD24BB459300B2FB66 /* libRNGoogleSignin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNGoogleSignin.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		607395D0B731D2974C7DA395 /* Pods-rental_mgm_app-rental_mgm_appTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rental_mgm_app-rental_mgm_appTests.debug.xcconfig"; path = "Target Support Files/Pods-rental_mgm_app-rental_mgm_appTests/Pods-rental_mgm_app-rental_mgm_appTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8B80868618D8329032B839B5 /* Pods-rental_mgm_app-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rental_mgm_app-tvOS.release.xcconfig"; path = "Target Support Files/Pods-rental_mgm_app-tvOS/Pods-rental_mgm_app-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		9D8939387BAA82C723D2CAE7 /* Pods-rental_mgm_app.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rental_mgm_app.release.xcconfig"; path = "Target Support Files/Pods-rental_mgm_app/Pods-rental_mgm_app.release.xcconfig"; sourceTree = "<group>"; };
@@ -147,6 +150,7 @@
 			children = (
 				53C986B824B36A4200BC1FB3 /* libYogaKit.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
+				53D3A8AD24BB459300B2FB66 /* libRNGoogleSignin.a */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
 				9EC0CA6CA596E539DD45A44C /* libPods-rental_mgm_app.a */,
 				05F5C18F728CC018F8AE1A80 /* libPods-rental_mgm_app-rental_mgm_appTests.a */,
@@ -173,6 +177,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				53D3A8AB24BB424600B2FB66 /* small.png */,
 				13B07FAE1A68108700A75B9A /* rental_mgm_app */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* rental_mgm_appTests */,
@@ -356,6 +361,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				53D3A8AC24BB424600B2FB66 /* small.png in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				53C986C124B4EE2A00BC1FB3 /* GoogleService-Info.plist in Resources */,
 			);
@@ -458,6 +464,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-rental_mgm_app/Pods-rental_mgm_app-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
@@ -472,6 +479,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
@@ -540,6 +548,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-rental_mgm_app-rental_mgm_appTests/Pods-rental_mgm_app-rental_mgm_appTests-resources.sh",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
@@ -554,6 +563,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
