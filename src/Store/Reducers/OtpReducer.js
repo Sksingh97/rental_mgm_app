@@ -11,7 +11,8 @@ export default function OtpReducer(state = INITIAL_STATE, action) {
         case VERIFY_OTP_SUCCESS:
             return {
                 ...state,
-                verifyOtpResponse: (action.payload)
+                verifyOtpResponse: (action.payload),
+                
             }
         case VERIFY_OTP_FAILURE:
             return {

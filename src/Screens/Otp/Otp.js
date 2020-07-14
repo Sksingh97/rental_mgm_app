@@ -22,11 +22,11 @@ class OtpScreen extends Component {
         const { navigation, route } = this.props;
         console.log(navigation,"\n\n\n",route)
         this.screen = route.name;
-        email = route.params.email
         this.state = {
             otp: ["", "", "", ""],
             current: 0,
-            emailId: email
+            emailId: route.params.email,
+            phone: route.params.phone
         }
     }
 
@@ -35,18 +35,21 @@ class OtpScreen extends Component {
         if (this.screen != "") {
 
             Keyboard.dismiss();
-            // this.props.hitResendOtpApi(this.state.emailId)
-            //     .then(
-            //         (data) => {
-            //             this.onResendOtpSuccess(data);
-            //         }
-            //     ).catch((error) => {
-            //         if (error.msg) {
-            //             Toast.show(error.msg)
-            //         } else {
-            //             Toast.show(strings.wentWrong)
-            //         }
-            //     });
+            this.props.hitResendOtpApi(this.state.emailId,this.state.phone)
+                .then(
+                    (data) => {
+                        console.log("RESOLVE DATA : ",data)
+                        this.onResendOtpSuccess(data);
+                    }
+                ).catch((error) => {
+                    console.log("Reject DATA : ",data)
+
+                    if (error.msg) {
+                        Toast.show(error.msg)
+                    } else {
+                        Toast.show(strings.wentWrong)
+                    }
+                });
         }
     }
 
@@ -115,12 +118,13 @@ class OtpScreen extends Component {
         if (this.validate()) {
             const code = this.state.otp.join("");
 
-            console.log("email", email, "phone", phone)
+            // console.log("email", email, "phone", phone)
             Keyboard.dismiss();
-            this.props.hitVerifyOtpApi(email.trim(), phone, code)
+            this.props.hitVerifyOtpApi(this.state.emailId.trim(), this.state.phone, code)
                 .then(
                     (data) => {
                         this.onVerifyOtpSuccess(data);
+                        Toast.show(data.msg)
                     }
                 ).catch((error) => {
                     if (error.msg) {
@@ -194,12 +198,15 @@ class OtpScreen extends Component {
                 <View style={style.HeaderContainer}>
                     <View style={style.SignUpHeading}>
                         <TouchableOpacity onPress={()=>{this.props.navigation.goBack()}}><Image source={Images.Back} style={style.BackButton}/></TouchableOpacity>
-                        <Text style={style.HeaderText}>Mobile Verification</Text>
+                        <Text style={style.HeaderText}>User Account Verification</Text>
                     </View>
                 </View>
                 
                 <View style={style.textContainer}>
-                    <Text style={style.text}>Enter 4 digit pass code sent to you at </Text><Text style={style.number}>{countryCode} {phone}</Text>
+                    <Text style={style.text}>Enter 4 digit otp sent on your mobile and email</Text>
+                    <Text style={style.number}>{countryCode} {phone}, </Text>
+                    {/* <Text style={style.text}> and email :</Text> */}
+                    <Text style={style.number}>{email}</Text>
                 </View>
                 <View style={style.inputContainer}>
                     {this.state.otp.map((item, index) => {

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Shelter Of Dream</string>
+    <string name="facebook_app_id">1121330131579544</string>
+    <string name="fb_login_protocol_scheme">fb1121330131579544</string>
 </resources>

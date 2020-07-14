@@ -10,6 +10,15 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
+      <meta-data android:name="com.facebook.sdk.ApplicationId" 
+        android:value="@string/facebook_app_id"/>
+    <provider android:authorities="com.facebook.app.FacebookContentProvider1121330131579544"
+          android:name="com.facebook.FacebookContentProvider"
+          android:exported="true" />
+    <activity android:name="com.facebook.FacebookActivity"
+        android:configChanges=
+                "keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+        android:label="@string/app_name" />
       <activity
           android:name=".SplashActivity"
           android:theme="@style/SplashTheme"

@@ -41,7 +41,9 @@ export default StyleSheet.create({
         width: '90%',
         marginHorizontal: 25,
         flexDirection: 'row',
-        flexWrap: 'wrap'
+        flexWrap: 'wrap',
+        alignItems:'center',
+        justifyContent:'center',
     },
     text: {
         fontSize: 20,
@@ -72,7 +74,7 @@ export default StyleSheet.create({
         textDecorationColor:Color.OffWhite
     },
     number: {
-        fontSize: 16,
+        fontSize: 20,
         fontFamily: Platform == 'android' ? 'Gill Sans Bold' : 'GillSans-SemiBold',
         color: Color.OffWhite
     },

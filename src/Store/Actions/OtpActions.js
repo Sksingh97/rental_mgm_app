@@ -49,7 +49,7 @@ console.log("email=>",emailId,"Phone=>",phone,"verificationCode=>",verificationC
             const parameters = {
                 email: emailId,
                 phone: phone,
-                code: verificationCode,
+                otp: verificationCode,
                 device_token: "QWERTY",
                 device_type: Platform.OS === 'android' ? "1" : "2"
 
@@ -79,6 +79,7 @@ console.log("email=>",emailId,"Phone=>",phone,"verificationCode=>",verificationC
 
                 },
                 onFailure: (error) => {
+                    console.log("Faliure")
                     dispatch(onVerifyOtpFailureAction(error));
                     reject(error)
 
@@ -116,7 +117,7 @@ export const hitResendOtpApi = (emailId, phone) =>
         //returns a funtion, not an action object
         dispatch(ApiSingleton.getInstance().apiActionCall({
             url: resendOtpUrl,
-            method: "POST",
+            method: "GET",
             onSuccess: async (data) => {
                 // let appUsrObj = AppUser.getInstance();
                 // appUsrObj.token = data.user.token;

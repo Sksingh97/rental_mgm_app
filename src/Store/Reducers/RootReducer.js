@@ -4,6 +4,7 @@ import api_reducer from '../Reducers/ApiReducer'
 import signupReducer from '../Reducers/SignupReducer'
 import OtpReducer from '../Reducers/OtpReducer'
 import PhoneNumberReducer from '../Reducers/PhoneNumberReducer'
+import themeReducer from '../Reducers/ThemeReducer'
 
 
 let appReducer = combineReducers({
@@ -12,6 +13,7 @@ let appReducer = combineReducers({
   signupReducer,
   OtpReducer,
   PhoneNumberReducer,
+  themeReducer
   
 });
 

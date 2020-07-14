@@ -1,9 +1,9 @@
 import React from 'react';
 import { View, Text, TextInput, Image, KeyboardAvoidingView } from 'react-native';
-import style from './SignUpStyle'
+import {getStyleProps} from './SignUpStyle'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import * as Color from '../../Constants/Color';
-import * as Images from '../../Constants/Images';
+import Color from '../../Constants/Color';
+import {getImageByTheme} from '../../Constants/Images';
 import * as util from '../../Utilities/Utils';
 import APILoadingHOC from "../../Components/HOCS/APILoadingHOC";
 import { connect } from 'react-redux';
@@ -14,26 +14,30 @@ import {
     GoogleSigninButton,
     statusCodes,
   } from 'react-native-google-signin';
-//   659153366205-ht7h6sdjjr890e5ejh2n0pgqp7rv57s1.apps.googleusercontent.com
-// web secret: TU4CIbEQr9cCIpKG92beG610
-  GoogleSignin.configure({
-    scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
-    webClientId: '659153366205-2e9ir8g196l41idvfdu1k3mc0vs3o5o0.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
-    offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
-    hostedDomain: '', // specifies a hosted domain restriction
-    loginHint: '', // [iOS] The user's ID, or email address, to be prefilled in the authentication UI if possible. [See docs here](https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#a0a68c7504c31ab0b728432565f6e33fd)
-    forceCodeForRefreshToken: true, // [Android] related to `serverAuthCode`, read the docs link below *.
-    accountName: '', // [Android] specifies an account name on the device that should be used
-    // iosClientId: '659153366205-25dsl9dcaim3dj117p1qi97op50jtom4.apps.googleusercontent.com', // [iOS] optional, if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
-  });
+//   import { LoginButton, AccessToken } from 'react-native-fbsdk';
+import { LoginManager } from "react-native-fbsdk";
+import ThemeSingleton from '../../Singleton/Theme';
+import {Appearance} from 'react-native-appearance';
+import {getLanguageString} from '../../Constants/Message'
+let Theme = ThemeSingleton.getInstance()
+
+GoogleSignin.configure({
+scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+webClientId: '659153366205-2e9ir8g196l41idvfdu1k3mc0vs3o5o0.apps.googleusercontent.com', 
+offlineAccess: true, 
+hostedDomain: '', 
+loginHint: '', 
+forceCodeForRefreshToken: true,
+accountName: '',
+});
 
 class SignUp extends React.Component{
     static ROUTE_NAME = "SignUp";
     state={
         name:"Goku",
-        email:"Shudhanshu88@gmail.com",
+        email:"test1@mailinator.com",
         country_code:"+91",
-        phone:"9717074214",
+        phone:"0000000000",
         password:"Qwerty@123",
         confirm_password:"Qwerty@123",
         error_email:false,
@@ -41,11 +45,12 @@ class SignUp extends React.Component{
         error_phone: false,
         error_password: false,
         error_confirm_password: false,
-        attempt:false
+        attempt:false,
+        color:'dark'
     }
 
     componentDidMount(){
-        // this.getCurrentUser();
+        Theme.setup();
     }
 
     setCreds = (val, prop) => {
@@ -144,6 +149,24 @@ class SignUp extends React.Component{
             });
     }
 
+    fblogin(){
+        LoginManager.logInWithPermissions(["public_profile"]).then(
+            function(result) {
+              if (result.isCancelled) {
+                console.log("Login cancelled");
+              } else {
+                console.log(
+                  "Login success with permissions: " +
+                    result.grantedPermissions.toString()
+                );
+              }
+            },
+            function(error) {
+              console.log("Login fail with error: " + error);
+            }
+          );
+    }
+
     create_account(){
         this.setState({
             attempt:true
@@ -186,55 +209,53 @@ class SignUp extends React.Component{
 
     render(){
         return (
-        <View style={style.Container}>
-            {/* <ScrollView> */}
-                <View style={style.SubContainer}>
-                    <View style={style.SignUpHeading}>
-                        <Text style={style.HeaderText}>Getting Started</Text>
+        <View style={getStyleProps(this.props.theme.color).Container}>
+                <View style={getStyleProps(this.props.theme.color).SubContainer}>
+                    <View style={getStyleProps(this.props.theme.color).SignUpHeading}>
+                        <Text style={getStyleProps(this.props.theme.color).HeaderText}>{getLanguageString(this.props.theme.lang).getting_Started}</Text>
                     </View>
-                    <View style={style.FormContainer}>
-                        <View style={style.InputGroup}>
-                            <Text style={style.lable}>Name</Text>
-                            <TextInput style={this.state.error_name?style.RongInput:style.Input} value={this.state.name} onChangeText={val => { this.setCreds(val, "name") }}/>
+                    <View style={getStyleProps(this.props.theme.color).FormContainer}>
+                        <View style={getStyleProps(this.props.theme.color).InputGroup}>
+                            <Text style={getStyleProps(this.props.theme.color).lable}>{getLanguageString(this.props.theme.lang).name}</Text>
+                            <TextInput style={this.state.error_name?getStyleProps(this.props.theme.color).RongInput:getStyleProps(this.props.theme.color).Input} value={this.state.name} onChangeText={val => { this.setCreds(val, "name") }}/>
                         </View>
-                        <View style={style.InputGroup}>
-                            <Text style={style.lable}>Email</Text>
-                            <TextInput style={this.state.error_email?style.RongInput:style.Input} value={this.state.email} onChangeText={val => { this.setCreds(val, "email") }}/>
+                        <View style={getStyleProps(this.props.theme.color).InputGroup}>
+                            <Text style={getStyleProps(this.props.theme.color).lable}>{getLanguageString(this.props.theme.lang).email}</Text>
+                            <TextInput style={this.state.error_email?getStyleProps(this.props.theme.color).RongInput:getStyleProps(this.props.theme.color).Input} value={this.state.email} onChangeText={val => { this.setCreds(val, "email") }}/>
                         </View>
-                        <View style={style.InputGroup}>
-                            <Text style={style.lable}>Phone</Text>
-                            <View style={style.CountryPhone}>
-                                <TextInput style={[this.state.error_country_code?style.RongInput:style.Input,style.Country]} value={this.state.country_code} placeholder="+91" placeholderTextColor={Color.OffWhite} maxLength={4} keyboardType="phone-pad" onChangeText={val => { this.setCreds(val, "country_code") }}/>
-                                <TextInput style={[this.state.error_phone?style.RongInput:style.Input,style.Phone]} value={this.state.phone} placeholder="xxx-xxx-xxxx" placeholderTextColor={Color.OffWhite} maxLength={10} keyboardType="phone-pad" onChangeText={val => { this.setCreds(val, "phone") }} />
+                        <View style={getStyleProps(this.props.theme.color).InputGroup}>
+                            <Text style={getStyleProps(this.props.theme.color).lable}>{getLanguageString(this.props.theme.lang).phone}</Text>
+                            <View style={getStyleProps(this.props.theme.color).CountryPhone}>
+                                <TextInput style={[this.state.error_country_code?getStyleProps(this.props.theme.color).RongInput:getStyleProps(this.props.theme.color).Input,getStyleProps(this.props.theme.color).Country]} value={this.state.country_code} placeholder="+91" placeholderTextColor={Color[this.props.theme.color].PlaceHolder} maxLength={4} keyboardType="phone-pad" onChangeText={val => { this.setCreds(val, "country_code") }}/>
+                                <TextInput style={[this.state.error_phone?getStyleProps(this.props.theme.color).RongInput:getStyleProps(this.props.theme.color).Input,getStyleProps(this.props.theme.color).Phone]} value={this.state.phone} placeholder="xxx-xxx-xxxx" placeholderTextColor={Color[this.props.theme.color].PlaceHolder} maxLength={10} keyboardType="phone-pad" onChangeText={val => { this.setCreds(val, "phone") }} />
                             </View>
                         </View>
-                        <View style={style.InputGroup}>
-                            <Text style={style.lable}>Password</Text>
-                            <TextInput style={this.state.error_password?style.RongInput:style.Input} placeholder="**********" secureTextEntry={true} placeholderTextColor={Color.OffWhite} value={this.state.password} onChangeText={val => { this.setCreds(val, "password") }}/>
+                        <View style={getStyleProps(this.props.theme.color).InputGroup}>
+                            <Text style={getStyleProps(this.props.theme.color).lable}>{getLanguageString(this.props.theme.lang).password}</Text>
+                            <TextInput style={this.state.error_password?getStyleProps(this.props.theme.color).RongInput:getStyleProps(this.props.theme.color).Input} placeholder="**********" secureTextEntry={true} placeholderTextColor={Color[this.props.theme.color].PlaceHolder} value={this.state.password} onChangeText={val => { this.setCreds(val, "password") }}/>
                         </View>
-                        <View style={style.InputGroup}>
-                            <Text style={style.lable}>Confirm Password</Text>
-                            <TextInput style={this.state.error_confirm_password?style.RongInput:style.Input}  placeholder="**********" secureTextEntry={true} placeholderTextColor={Color.OffWhite} value={this.state.confirm_password} onChangeText={val => { this.setCreds(val, "confirm_password") }}/>
+                        <View style={getStyleProps(this.props.theme.color).InputGroup}>
+                            <Text style={getStyleProps(this.props.theme.color).lable}>{getLanguageString(this.props.theme.lang).confirm_password}</Text>
+                            <TextInput style={this.state.error_confirm_password?getStyleProps(this.props.theme.color).RongInput:getStyleProps(this.props.theme.color).Input}  placeholder="**********" secureTextEntry={true} placeholderTextColor={Color[this.props.theme.color].PlaceHolder} value={this.state.confirm_password} onChangeText={val => { this.setCreds(val, "confirm_password") }}/>
                         </View>
                     </View>
-                    <View style={style.SubmitButtonContainer}>
-                        <TouchableOpacity style={style.SubmitButton} onPress={()=>{this.create_account()}}><Text style={style.lable}>Sign Up</Text></TouchableOpacity>
+                    <View style={getStyleProps(this.props.theme.color).SubmitButtonContainer}>
+                        <TouchableOpacity style={getStyleProps(this.props.theme.color).SubmitButton} onPress={()=>{this.create_account()}}><Text style={getStyleProps(this.props.theme.color).lable}>{getLanguageString(this.props.theme.lang).sign_up}</Text></TouchableOpacity>
                     </View>
-                    <View style={style.SocialLoginSeparetorContainer}>
-                        <View><Text style={style.lable}>- - - - - - - - OR - - - - - - - -</Text></View>
+                    <View style={getStyleProps(this.props.theme.color).SocialLoginSeparetorContainer}>
+                        <View><Text style={getStyleProps(this.props.theme.color).lable}>- - - - - - - - {getLanguageString(this.props.theme.lang).or} - - - - - - - -</Text></View>
                     </View>
-                    <View style={style.SocialWrapper}>
-                        <View style={style.SocialLoginContainer}>
+                    <View style={getStyleProps(this.props.theme.color).SocialWrapper}>
+                        <View style={getStyleProps(this.props.theme.color).SocialLoginContainer}>
                             <View>
-                                <TouchableOpacity style={style.SocialButton} onPress={()=>{this.signIn()}}><Image source={Images.Google} style={style.SocialLogo}/></TouchableOpacity>
+                                <TouchableOpacity style={getStyleProps(this.props.theme.color).SocialButton} onPress={()=>{this.signIn()}}><Image source={getImageByTheme(this.props.theme.color).Google} style={getStyleProps(this.props.theme.color).SocialLogo}/></TouchableOpacity>
                             </View>
                             <View>
-                                <TouchableOpacity style={style.SocialButton}><Image source={Images.Facebook} style={style.SocialLogo}/></TouchableOpacity>
+                                <TouchableOpacity style={getStyleProps(this.props.theme.color).SocialButton} onPress={()=>{this.fblogin()}}><Image source={getImageByTheme(this.props.theme.color).Facebook} style={getStyleProps(this.props.theme.color).SocialLogo}/></TouchableOpacity>
                             </View>
                         </View>
                     </View>
                 </View>
-            {/* </ScrollView> */}
         </View>
         )
     }
@@ -244,13 +265,18 @@ const mapStateToProps = (state) => {
 
 
     const {
-        signupResponse
+        signupResponse,
     } = state.signupReducer;
+
+    const {
+        themeReducer
+      } = state;
 
 
 
     return {
-        signupResponse: signupResponse
+        signupResponse: signupResponse,
+        theme: themeReducer.theme
     };
 
 };

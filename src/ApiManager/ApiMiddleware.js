@@ -66,15 +66,17 @@ const ApiMiddleware = ({ dispatch, getState }) => next => action => {
             [dataOrParams]: data,
             timeout: 60000
         })
-        .then(({ data }) => {
+        .then(async ({ data }) => {
             console.log("RESPONSE DATA : : ",data)
-            if (data.result != null) {
-                let action = onSuccess(data.result);
+            if (data.result != null || data.msg != null) {
+                let action = await onSuccess(data.result);
+                console.log("ACTION : : :",action)
                 if (action) {
                     dispatch(action);
                 }
                 //-> SUCCESS callback
             } else {
+                console.log("EROROROR : : ")
                 this.handleFailure(data)
             }
 
@@ -84,7 +86,7 @@ const ApiMiddleware = ({ dispatch, getState }) => next => action => {
         })
         .catch(error => {
             // const code = parseInt(error.response && error.response.status);
-
+            console.log("LETS CHECK : : ",error)
             //ERROR Handling
             if (error.response) {
                 // The request was made and the server responded with a status code

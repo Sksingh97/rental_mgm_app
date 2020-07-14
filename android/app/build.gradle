@@ -212,6 +212,7 @@ dependencies {
 
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
+    implementation 'com.facebook.android:facebook-android-sdk:[5,6)'
 
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {

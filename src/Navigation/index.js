@@ -26,9 +26,10 @@ function SettingsScreen() {
 function MyStack() {
     return (
       <Stack.Navigator headerMode="none">
+        {/* <Stack.Screen name="login" component={Login} /> */}
+
         <Stack.Screen name="signup" component={SignUp} />
         <Stack.Screen name="Otp" component={Otp}/>
-        <Stack.Screen name="login" component={Login} />
       </Stack.Navigator>
     );
 }

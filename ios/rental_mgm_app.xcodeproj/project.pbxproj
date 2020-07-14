@@ -65,6 +65,9 @@
 		53C986C024B4EE2A00BC1FB3 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		53D3A8AB24BB424600B2FB66 /* small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = small.png; sourceTree = "<group>"; };
 		53D3A8AD24BB459300B2FB66 /* libRNGoogleSignin.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRNGoogleSignin.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		53D3A8AF24BB812D00B2FB66 /* libFBSDKCoreKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libFBSDKCoreKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		53D3A8B124BB815300B2FB66 /* libreact-native-fbsdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = "libreact-native-fbsdk.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		53D3A8B324BB816900B2FB66 /* libFBSDKLoginKit.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libFBSDKLoginKit.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		607395D0B731D2974C7DA395 /* Pods-rental_mgm_app-rental_mgm_appTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rental_mgm_app-rental_mgm_appTests.debug.xcconfig"; path = "Target Support Files/Pods-rental_mgm_app-rental_mgm_appTests/Pods-rental_mgm_app-rental_mgm_appTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8B80868618D8329032B839B5 /* Pods-rental_mgm_app-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rental_mgm_app-tvOS.release.xcconfig"; path = "Target Support Files/Pods-rental_mgm_app-tvOS/Pods-rental_mgm_app-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		9D8939387BAA82C723D2CAE7 /* Pods-rental_mgm_app.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-rental_mgm_app.release.xcconfig"; path = "Target Support Files/Pods-rental_mgm_app/Pods-rental_mgm_app.release.xcconfig"; sourceTree = "<group>"; };
@@ -148,6 +151,9 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				53D3A8B324BB816900B2FB66 /* libFBSDKLoginKit.a */,
+				53D3A8B124BB815300B2FB66 /* libreact-native-fbsdk.a */,
+				53D3A8AF24BB812D00B2FB66 /* libFBSDKCoreKit.a */,
 				53C986B824B36A4200BC1FB3 /* libYogaKit.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				53D3A8AD24BB459300B2FB66 /* libRNGoogleSignin.a */,
@@ -464,6 +470,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-rental_mgm_app/Pods-rental_mgm_app-resources.sh",
+				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -479,6 +486,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
@@ -548,6 +556,7 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-rental_mgm_app-rental_mgm_appTests/Pods-rental_mgm_app-rental_mgm_appTests-resources.sh",
+				"${PODS_ROOT}/FBSDKCoreKit/FacebookSDKStrings.bundle",
 				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
@@ -563,6 +572,7 @@
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FacebookSDKStrings.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/GoogleSignIn.bundle",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
