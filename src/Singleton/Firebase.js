@@ -54,9 +54,10 @@ class FirebaseSingleton {
                     AppAsync.setAsyncData('fcmToken',fcmToken)
                 }
             }
-            console.log("FCM TOKEN : : : ",fcmToken)
+            return fcmToken
         }catch(e){
             console.log("ERROR: : :",e,AppAsync)
+            return null
         }
         
     }

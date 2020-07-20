@@ -1,81 +1,96 @@
 import React from 'react';
 import { View, Text, TextInput, Image, KeyboardAvoidingView } from 'react-native';
-import style from './LoginStyle'
+import { getStyleProps } from './LoginStyle'
 import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import * as Color from '../../Constants/Color';
-import * as Images from '../../Constants/Images';
+import Color from '../../Constants/Color';
+import { getImageByTheme } from '../../Constants/Images';
 import * as util from '../../Utilities/Utils';
 import APILoadingHOC from "../../Components/HOCS/APILoadingHOC";
 import { connect } from 'react-redux';
-import * as actions from '../../Store/Actions/SignupActions';
+import * as actions from '../../Store/Actions/LoginActions';
 import Toast from 'react-native-simple-toast';
 import {
     GoogleSignin,
     GoogleSigninButton,
     statusCodes,
-  } from 'react-native-google-signin';
+} from 'react-native-google-signin';
 //   import { LoginButton, AccessToken } from 'react-native-fbsdk';
-import { LoginManager } from "react-native-fbsdk";
-//   659153366205-ht7h6sdjjr890e5ejh2n0pgqp7rv57s1.apps.googleusercontent.com
-// web secret: TU4CIbEQr9cCIpKG92beG610
-  GoogleSignin.configure({
-    scopes: ['https://www.googleapis.com/auth/drive.readonly'], // what API you want to access on behalf of the user, default is email and profile
-    webClientId: '659153366205-2e9ir8g196l41idvfdu1k3mc0vs3o5o0.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
-    offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
-    hostedDomain: '', // specifies a hosted domain restriction
-    loginHint: '', // [iOS] The user's ID, or email address, to be prefilled in the authentication UI if possible. [See docs here](https://developers.google.com/identity/sign-in/ios/api/interface_g_i_d_sign_in.html#a0a68c7504c31ab0b728432565f6e33fd)
-    forceCodeForRefreshToken: true, // [Android] related to `serverAuthCode`, read the docs link below *.
-    accountName: '', // [Android] specifies an account name on the device that should be used
-    // iosClientId: '659153366205-25dsl9dcaim3dj117p1qi97op50jtom4.apps.googleusercontent.com', // [iOS] optional, if you want to specify the client ID of type iOS (otherwise, it is taken from GoogleService-Info.plist)
-  });
+import { LoginManager, AccessToken } from "react-native-fbsdk";
+import ThemeSingleton from '../../Singleton/Theme';
+import { Appearance } from 'react-native-appearance';
+import { getLanguageString } from '../../Constants/Message'
+let Theme = ThemeSingleton.getInstance()
 
-class LogIn extends React.Component{
-    static ROUTE_NAME = "LogIn";
-    state={
-        name:"Goku",
-        email:"test1@mailinator.com",
-        country_code:"+91",
-        phone:"0000000000",
-        password:"Qwerty@123",
-        confirm_password:"Qwerty@123",
-        error_email:false,
-        error_country_code:false,
-        error_phone: false,
-        error_password: false,
-        error_confirm_password: false,
-        attempt:false
+GoogleSignin.configure({
+    scopes: ['https://www.googleapis.com/auth/drive.readonly'],
+    webClientId: '659153366205-2e9ir8g196l41idvfdu1k3mc0vs3o5o0.apps.googleusercontent.com',
+    offlineAccess: true,
+    hostedDomain: '',
+    loginHint: '',
+    forceCodeForRefreshToken: true,
+    accountName: '',
+    // iosClientId:'659153366205-25dsl9dcaim3dj117p1qi97op50jtom4.apps.googleusercontent.com',
+});
+
+class LogIn extends React.Component {
+    static ROUTE_NAME = "SignUp";
+    state = {
+        email: "",
+        password: "",
+        error_email: false,
+        attempt: false,
     }
 
-    componentDidMount(){
-        // this.getCurrentUser();
+    componentDidMount() {
+        Theme.setup();
+        this.setState({
+            email: "shudhanshu88@gmail.com",
+            password: "Qwerty@123",
+            error_email: false,
+            attempt: false,
+        })
     }
 
     setCreds = (val, prop) => {
         this.setState({
             [prop]: val
-        },()=>{
-            if(this.state.attempt){
+        }, () => {
+            if (this.state.attempt) {
                 this.validate()
             }
         })
-        
+
     }
 
     signIn = async () => {
         try {
             await GoogleSignin.hasPlayServices();
             const userInfo = await GoogleSignin.signIn();
-            console.log("USER INFO FROM GOOGLE : : : ",userInfo)
-        //   this.setState({ userInfo });
+            //   this.setState({ userInfo });
+            this.props.hitUserLoginApi({token:userInfo.idToken,email:userInfo.user.email,id:userInfo.user.id,log_in_type:1})
+                        .then(
+                            (data) => {
+                                let user = {...data.user,token:data.token}
+                                this.props.RestoreReducer(user);
+                                // this.onSuccess(data);
+                                Toast.show("Login Success")
+                            }
+                        ).catch((error) => {
+                            if (error.msg) {
+                                Toast.show(error.msg)
+                            } else {
+                                Toast.show("strings.wentWrong")
+                            }
+                        });
         } catch (error) {
             if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-            // user cancelled the login flow
+                console.log("ERROR !",error)
             } else if (error.code === statusCodes.IN_PROGRESS) {
-            // operation (e.g. sign in) is in progress already
+                console.log("ERROR @",error)
             } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-            // play services not available or outdated
+                console.log("ERROR #",error)
             } else {
-            // some other error happened
+                console.log("ERROR $",error)
             }
         }
     };
@@ -87,192 +102,159 @@ class LogIn extends React.Component{
 
     getCurrentUser = async () => {
         const currentUser = await GoogleSignin.getCurrentUser();
-        console.log("CURRENT USER : : : :",currentUser)
         // this.setState({ currentUser });
     };
 
     signOut = async () => {
         try {
-          await GoogleSignin.revokeAccess();
-          await GoogleSignin.signOut();
-          this.setState({ user: null }); // Remember to remove the user from your app's state as well
+            await GoogleSignin.revokeAccess();
+            await GoogleSignin.signOut();
+            this.setState({ user: null }); // Remember to remove the user from your app's state as well
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
-      };
+    };
 
-      revokeAccess = async () => {
+    revokeAccess = async () => {
         try {
-          await GoogleSignin.revokeAccess();
-          console.log('deleted');
+            await GoogleSignin.revokeAccess();
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
-      };
+    };
 
-      
+
 
     validate = () => {
         let emailPat = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/g
-        let countryCodePat = /^([+][0-9]).{0,2}$/gm
-        var mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{6,})");
-        var phonePat = /^(\d+).{9}$/
         var error_email = emailPat.test(this.state.email);
-        var error_country_code = countryCodePat.test(this.state.country_code);
-        var error_password = mediumRegex.test(this.state.password);
-        var error_phone = phonePat.test(this.state.phone)
-        var error_confirm_password = this.state.password == this.state.confirm_password
-        var error_name = this.state.name != ""
         this.setState({
-            error_email:!error_email,
-            error_country_code:!error_country_code,
-            error_phone: !error_phone,
-            error_password: !error_password,
-            error_confirm_password: !error_confirm_password,
-            error_name:!error_name,
-            attempt:true
+            error_email: !error_email,
+            attempt: true
         })
-        return error_email&&error_country_code&&error_password&&error_phone&&error_confirm_password&&error_name
-        
+        return error_email 
+
     }
 
     onSuccess = (data) => {
-        console.log("Data On Succes", data, "Phone", this.state.phone);
-        this.props.navigation.navigate('Otp',
-            {
-                countryCode: this.state.countryCode,
-                phone: this.state.phone,
-                email: this.state.email,
-            });
+        // this.props.navigation.navigate('Otp',
+        //     {
+        //         countryCode: this.state.countryCode,
+        //         phone: this.state.phone,
+        //         email: this.state.email,
+        //     });
     }
 
-    fblogin(){
+    fblogin=()=> {
         LoginManager.logInWithPermissions(["public_profile"]).then(
-            function(result) {
-              if (result.isCancelled) {
-                console.log("Login cancelled");
-              } else {
-                console.log(
-                  "Login success with permissions: " +
-                    result.grantedPermissions.toString()
-                );
-              }
+            (result) => {
+                if (result.isCancelled) {
+                } else {
+                    
+                    AccessToken.getCurrentAccessToken().then(
+                        (data) => {
+                            
+                          this.props.hitUserLoginApi({token:data.accessToken,id:data.userID,log_in_type:2})
+                        .then(
+                            (data) => {
+                                data.user.token = data.token
+                                this.props.RestoreReducer(data.user);
+                                // this.onSuccess(data);
+                                Toast.show("Login Success")
+                            }
+                        ).catch((error) => {
+                            if (error.msg) {
+                                Toast.show(error.msg)
+                            } else {
+                                Toast.show("Something Went Wrong")
+                            }
+                        });
+                        }
+                      )
+                }
             },
-            function(error) {
-              console.log("Login fail with error: " + error);
+            function (error) {
+                console.log("Login fail with error: " + error);
             }
-          );
+        );
     }
 
-    create_account(){
+    login=()=> {
         this.setState({
-            attempt:true
+            attempt: true
         })
-        let valid = this.validate()
-        let old_password = this.state.password
-        console.log(valid)
-        if(valid){
-            this.setState({
-                password:util.SHA256(this.state.password),
-                confirm_password:util.SHA256(this.state.confirm_password)
-            },()=>{
-                
-                try{
-                    this.props.hitSignupApi(this.state)
-                    .then(
-                        (data) => {
-                            this.onSuccess(data);
-                            console.log("REsponse : : : ",data)
-                            Toast.show("Login Success")
-                        }
-                    ).catch((error) => {
-                        console.log("ERROR AI H BHAI : : ",error)
-                        if (error.msg) {
-                            Toast.show(error.msg)
-                        } else {
-                            Toast.show("strings.wentWrong")
-                        }
-                        this.setState({
-                            password:old_password,
-                            confirm_password:old_password
-                        })
-                    });
-                }catch(e){
-                    console.log("Error : ",e)
+        let valid = this.validate();
+        if (valid) {
+
+                try {
+                    this.props.hitUserLoginApi(this.state)
+                        .then(
+                            (data) => {
+                                this.onSuccess(data);
+                                // Toast.show("Login Success")
+                            }
+                        ).catch((error) => {
+                            if (error.msg) {
+                                Toast.show(error.msg)
+                            } else {
+                                Toast.show("strings.wentWrong")
+                            }
+                            // this.setState({
+                            //     password: old_password,
+                            //     confirm_password: old_password
+                            // })
+                        });
+                } catch (e) {
+                    console.log("Error : ", e)
                 }
-            })
         }
     }
 
-    render(){
+    render() {
+        let Style_Var = getStyleProps(this.props.theme.color);
+        let String_Var = getLanguageString(this.props.theme.lang);
+        let Image_Var = getImageByTheme(this.props.theme.color);;
         return (
-        <View style={style.Container}>
-            {/* <ScrollView> */}
-                <View style={style.SubContainer}>
-                    <View style={style.SignUpHeading}>
-                        <Text style={style.HeaderText}>Login</Text>
-                    </View>
-                    <View style={style.FormContainer}>
-                        {/* <View style={style.InputGroup}>
-                            <Text style={style.lable}>Name</Text>
-                            <TextInput style={this.state.error_name?style.RongInput:style.Input} value={this.state.name} onChangeText={val => { this.setCreds(val, "name") }}/>
-                        </View> */}
-                        <View style={style.InputGroup}>
-                            <Text style={style.lable}>Email</Text>
-                            <TextInput style={this.state.error_email?style.RongInput:style.Input} value={this.state.email} onChangeText={val => { this.setCreds(val, "email") }}/>
+            <View style={Style_Var.Container}>
+                <View style={Style_Var.SubContainer}>
+                    <View>
+                        <View style={Style_Var.SignUpHeading}>
+                            <Text style={Style_Var.HeaderText}>{String_Var.LOGIN}</Text>
                         </View>
-                        {/* <View style={style.InputGroup}>
-                            <Text style={style.lable}>Phone</Text>
-                            <View style={style.CountryPhone}>
-                                <TextInput style={[this.state.error_country_code?style.RongInput:style.Input,style.Country]} value={this.state.country_code} placeholder="+91" placeholderTextColor={Color.OffWhite} maxLength={4} keyboardType="phone-pad" onChangeText={val => { this.setCreds(val, "country_code") }}/>
-                                <TextInput style={[this.state.error_phone?style.RongInput:style.Input,style.Phone]} value={this.state.phone} placeholder="xxx-xxx-xxxx" placeholderTextColor={Color.OffWhite} maxLength={10} keyboardType="phone-pad" onChangeText={val => { this.setCreds(val, "phone") }} />
+                        <View style={Style_Var.FormContainer}>
+                            <View style={Style_Var.InputGroup}>
+                                <Text style={Style_Var.lable}>{String_Var.email}</Text>
+                                <TextInput style={this.state.error_email ? Style_Var.RongInput : Style_Var.Input} value={this.state.email} onChangeText={val => { this.setCreds(val, "email") }} />
                             </View>
-                        </View> */}
-                        <View style={style.InputGroup}>
-                            <Text style={style.lable}>Password</Text>
-                            <TextInput style={this.state.error_password?style.RongInput:style.Input} placeholder="**********" secureTextEntry={true} placeholderTextColor={Color.OffWhite} value={this.state.password} onChangeText={val => { this.setCreds(val, "password") }}/>
-                        </View>
-                        {/* <View style={style.InputGroup}>
-                            <Text style={style.lable}>Confirm Password</Text>
-                            <TextInput style={this.state.error_confirm_password?style.RongInput:style.Input}  placeholder="**********" secureTextEntry={true} placeholderTextColor={Color.OffWhite} value={this.state.confirm_password} onChangeText={val => { this.setCreds(val, "confirm_password") }}/>
-                        </View> */}
-                    </View>
-                    <View style={style.SubmitButtonContainer}>
-                        <TouchableOpacity style={style.SubmitButton} onPress={()=>{this.create_account()}}><Text style={style.lable}>Log In</Text></TouchableOpacity>
-                    </View>
-                    <View style={style.SocialLoginSeparetorContainer}>
-                        <View><Text style={style.lable}>- - - - - - - - OR - - - - - - - -</Text></View>
-                    </View>
-                    <View style={style.SocialWrapper}>
-                        <View style={style.SocialLoginContainer}>
-                            <View>
-                                <TouchableOpacity style={style.SocialButton} onPress={()=>{this.signIn()}}><Image source={Images.Google} style={style.SocialLogo}/></TouchableOpacity>
-                            </View>
-                            <View>
-                            {/* <LoginButton
-          onLoginFinished={
-            (error, result) => {
-              if (error) {
-                console.log("login has error: " + result.error);
-              } else if (result.isCancelled) {
-                console.log("login is cancelled.");
-              } else {
-                AccessToken.getCurrentAccessToken().then(
-                  (data) => {
-                    console.log(data.accessToken.toString())
-                  }
-                )
-              }
-            }
-          }
-          onLogoutFinished={() => console.log("logout.")}/> */}
-                                <TouchableOpacity style={style.SocialButton} onPress={()=>{this.fblogin()}}><Image source={Images.Facebook} style={style.SocialLogo}/></TouchableOpacity>
+                            <View style={Style_Var.InputGroup}>
+                                <Text style={Style_Var.lable}>{String_Var.password}</Text>
+                                <TextInput style={this.state.error_password ? Style_Var.RongInput : Style_Var.Input} placeholder="**********" secureTextEntry={true} placeholderTextColor={Color[this.props.theme.color].PlaceHolder} value={this.state.password} onChangeText={val => { this.setCreds(val, "password") }} />
                             </View>
                         </View>
+                        <View style={Style_Var.SubmitButtonContainer}>
+                            <TouchableOpacity style={Style_Var.SubmitButton} onPress={this.login}><Text style={Style_Var.lable}>{String_Var.LOGIN}</Text></TouchableOpacity>
+                        </View>
+                        <View style={Style_Var.SocialLoginSeparetorContainer}>
+                            <View><Text style={Style_Var.lable}>- - - - - - - - {String_Var.or} - - - - - - - -</Text></View>
+                        </View>
+                        <View style={Style_Var.SocialWrapper}>
+                            <View style={Style_Var.SocialLoginContainer}>
+                                <View>
+                                    <TouchableOpacity style={Style_Var.SocialButton} onPress={() => { this.signIn() }}><Image source={Image_Var.Google} style={Style_Var.SocialLogo} /></TouchableOpacity>
+                                </View>
+                                <View>
+                                    <TouchableOpacity style={Style_Var.SocialButton} onPress={() => { this.fblogin() }}><Image source={Image_Var.Facebook} style={Style_Var.SocialLogo} /></TouchableOpacity>
+                                </View>
+                            </View>
+                        </View>
+                    </View>
+                    <View style={Style_Var.DoNotHaveContainer}>
+                        <TouchableOpacity onPress={()=>{this.props.navigation.navigate('signup')}}>
+                            <Text style={getStyleProps(this.props.theme.colo).DoNotText}>{String_Var.DO_NOT_HAVE_AN_ACCOUNT}</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
-            {/* </ScrollView> */}
-        </View>
+            </View>
         )
     }
 }
@@ -281,13 +263,18 @@ const mapStateToProps = (state) => {
 
 
     const {
-        loginResponse
+        loginResponse,
     } = state.loginReducer;
+
+    const {
+        themeReducer
+    } = state;
 
 
 
     return {
-        loginResponse: loginResponse
+        loginResponse: loginResponse,
+        theme: themeReducer.theme
     };
 
 };
@@ -296,9 +283,8 @@ let LoginWithLoader = APILoadingHOC(LoginContainer);
 
 LoginWithLoader.getIntent = () => {
     return {
-        routeName: LoginScreen.ROUTE_NAME,
+        routeName: LogIn.ROUTE_NAME,
     };
 };
 
 export default LoginWithLoader;
-    

@@ -115,9 +115,13 @@ const strings = {
     confirm_password:"Confirm Password",
     sign_up:"Sign Up",
     or:"OR",
+    user_account_verify:"User Account Verification",
+    otp_direction:"Enter 4 digit otp sent on your mobile and email",
+    submit:"Submit",
+    DO_NOT_HAVE_AN_ACCOUNT:"Do not have an account ?",
   },
   hi:{
-    LOGIN: 'Login',
+    LOGIN: 'लॉग इन करें',
     SKIP: 'Skip',
     EMAIL_USERNAME: 'Email ID/Username',
     PASSWORD: 'Password',
@@ -131,8 +135,8 @@ const strings = {
     ALREADT_HAVE_ACCOUNT: 'Already have an account?',
     SIGN_IN_HERE: ' Sign In Here ',
     OTP: 'OTP',
-    DIDNT_RECIEVED_CODE: 'Didn’t recieve a verification code?',
-    RESEND_CODE: 'Resend Code',
+    DIDNT_RECIEVED_CODE: 'क्या सत्यापन कोड प्राप्त नहीं होगा?',
+    RESEND_CODE: 'पुन: कोड भेजे',
     USERNAME: 'Username',
     EMAIL: 'Email',
     MOBILE: 'Mobile Number',
@@ -230,6 +234,12 @@ const strings = {
     confirm_password:"पासवर्ड की पुष्टि कीजिये",
     sign_up:"साइन अप करें",
     or:"या",
+    user_account_verify:"उपयोगकर्ता खाता सत्यापन",
+    otp_direction: "अपने मोबाइल और ईमेल पर भेजे गए 4 अंकों का ओटीपी दर्ज करें",
+    submit:"जमा करें",
+    DO_NOT_HAVE_AN_ACCOUNT:"क्या आपका कोई खाता नहीं है ?"
+
+
   }
   }
 

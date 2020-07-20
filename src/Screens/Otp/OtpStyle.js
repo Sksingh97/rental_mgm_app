@@ -1,9 +1,9 @@
-import { StyleSheet } from 'react-native';
-import * as Color from '../../Constants/Color'
+import Color from '../../Constants/Color'
 import {Platform } from 'react-native';
 import {heightScale, width} from "../../Utilities/Utils"
 
-export default StyleSheet.create({
+export const getStyleProps=(theme)=>{
+    return {
     fullScreen: { flex: 1,backgroundColor:Color.Main_BackGround },
     input: {
         width: 47,
@@ -100,7 +100,7 @@ export default StyleSheet.create({
         marginLeft:20
     },
     SignUpHeading:{
-        marginTop:heightScale(90),
+        marginTop:heightScale(70),
         width:'90%',
         flexDirection:'row',
         alignItems:'center'
@@ -113,4 +113,5 @@ export default StyleSheet.create({
         height:20,
         width:20
     }
-})
+}
+}

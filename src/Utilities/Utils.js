@@ -1,5 +1,7 @@
 import { Dimensions, Platform, StatusBar } from 'react-native';
 import moment from 'moment'
+import axios from 'axios';
+import ApiEndpoint, {REGISTER_DEVICE} from '../ApiManager/ApiEndpoint'
 export const myWidth = Dimensions.get('window').width;
 export const myHeight = Dimensions.get('window').height;
 const isPlatformIOS = (Platform.OS === 'ios');
@@ -328,3 +330,11 @@ export const convertStrISOIntoTime = (timestamp) => {
   return today;
 };
 
+export const RegisterDevice = (data) => {
+  axios.post(ApiEndpoint(REGISTER_DEVICE),data).then(data=>{
+    console.log("SUCCESS : : : ",data);
+  })
+  .catch(err=>{
+    console.log("FALIURE : : : ",err)
+  })
+}

@@ -1,10 +1,3 @@
-export const Main_BackGround ="#2A2942"
-export const White = "#fff"
-export const OffWhite = "#D2D2D2"
-export const Gray = "#B7B7B7"
-export const LightPurple = "#5D5AA8"
-export const Red = "red"
-export const INPUT_BORDER = "blue"
 
 const Theme_Color = {
     dark:{
@@ -15,7 +8,8 @@ const Theme_Color = {
         Gray : "#B7B7B7",
         LightPurple : "#5D5AA8",
         Red : "red",
-        INPUT_BORDER : "blue"
+        INPUT_BORDER : "blue",
+        NAV_TEXT:"#fff"
     },
     light:{
         Main_BackGround :"#d7d7d7",
@@ -25,7 +19,8 @@ const Theme_Color = {
         Gray : "#B7B7B7",
         LightPurple : "#5D5AA8",
         Red : "red",
-        INPUT_BORDER : "blue"
+        INPUT_BORDER : "blue",
+        NAV_TEXT:"blue"
     }
 }
 

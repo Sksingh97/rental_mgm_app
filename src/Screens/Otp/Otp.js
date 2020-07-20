@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { TextInput, View, Text, TouchableOpacity, SafeAreaView, Keyboard, Platform, Image } from 'react-native';
-import style from './OtpStyle'
-import * as Images from '../../Constants/Images'
-// import Header from '../../components/Header/HeaderComponent'
-
-// import CustomButton from '../../components/Button/CustomButton'
-import strings from '../../Constants/Message';
-import * as actions from '../../Store/Actions/OtpActions'
+import { getStyleProps } from './OtpStyle'
+import { getImageByTheme } from '../../Constants/Images';
+import { getLanguageString } from '../../Constants/Message'
+import * as actions from '../../Store/Actions/OtpActions';
+import * as loginAction from '../../Store/Actions/LoginActions'
 import APILoadingHOC from "../../Components/HOCS/APILoadingHOC";
 import { connect } from 'react-redux';
 import Toast from 'react-native-simple-toast';
@@ -20,7 +18,6 @@ class OtpScreen extends Component {
     constructor(props) {
         super(props);
         const { navigation, route } = this.props;
-        console.log(navigation,"\n\n\n",route)
         this.screen = route.name;
         this.state = {
             otp: ["", "", "", ""],
@@ -31,28 +28,28 @@ class OtpScreen extends Component {
     }
 
     componentDidMount() {
-        console.log("===================================ComponentDidMount", this.screen)
         if (this.screen != "") {
 
-            Keyboard.dismiss();
-            this.props.hitResendOtpApi(this.state.emailId,this.state.phone)
-                .then(
-                    (data) => {
-                        console.log("RESOLVE DATA : ",data)
-                        this.onResendOtpSuccess(data);
-                    }
-                ).catch((error) => {
-                    console.log("Reject DATA : ",data)
-
-                    if (error.msg) {
-                        Toast.show(error.msg)
-                    } else {
-                        Toast.show(strings.wentWrong)
-                    }
-                });
+            // this.sendOtpCode()
         }
     }
 
+    sendOtpCode = () => {
+        Keyboard.dismiss();
+        this.props.hitResendOtpApi(this.state.emailId, this.state.phone)
+            .then(
+                (data) => {
+                    this.onResendOtpSuccess(data);
+                }
+            ).catch((error) => {
+
+                if (error.msg) {
+                    Toast.show(error.msg)
+                } else {
+                    Toast.show(String_Var.wentWrong)
+                }
+            });
+    }
 
     otpChangeHandler = (index, text) => {
         if (text === "" || text === " ") {
@@ -96,18 +93,18 @@ class OtpScreen extends Component {
     validate = () => {
         const code = this.state.otp;
         if (code[0] == "") {
-            Toast.show(strings.errorEnterOtp)
+            Toast.show(String_Var.errorEnterOtp)
             return false;
         } else if (code[1] == "") {
-            Toast.show(strings.errorEnterOtp)
+            Toast.show(String_Var.errorEnterOtp)
             return false;
         }
         else if (code[2] == "") {
-            Toast.show(strings.errorEnterOtp)
+            Toast.show(String_Var.errorEnterOtp)
             return false;
         }
         else if (code[3] == "") {
-            Toast.show(strings.errorEnterOtp)
+            Toast.show(String_Var.errorEnterOtp)
             return false;
         }
 
@@ -118,63 +115,27 @@ class OtpScreen extends Component {
         if (this.validate()) {
             const code = this.state.otp.join("");
 
-            // console.log("email", email, "phone", phone)
             Keyboard.dismiss();
             this.props.hitVerifyOtpApi(this.state.emailId.trim(), this.state.phone, code)
                 .then(
                     (data) => {
-                        this.onVerifyOtpSuccess(data);
+                        this.props.RestoreReducer(data.user);
                         Toast.show(data.msg)
                     }
                 ).catch((error) => {
                     if (error.msg) {
                         Toast.show(error.msg)
                     } else {
-                        Toast.show(strings.wentWrong)
+                        Toast.show(String_Var.wentWrong)
                     }
                 });
         }
     }
 
-    onVerifyOtpSuccess = async(data) => {
-        // console.log("Data", data)
-        // let appUsrObj = AppUser.getInstance();
-        // appUsrObj.token = data.user.token;
-        // appUsrObj.userId = data.user.id;
-        // appUsrObj.userDetails = data.user;
 
-        // const userToken = ["@USER_TOKEN", data.user.token];
-        // const userId = ["@USER_ID", data.user.id.toString()];
-        // const userDetails = ["@USER_DETAILS", JSON.stringify(data.user)];
-        // try {
-        //     await AsyncStorage.multiSet([userToken, userId, userDetails])
-        // } catch (e) {
-        //     console.log("Error saving user details", e);
-        // }
-        // console.log("data", data);
-        // this.props.navigation.navigate("UserLocationScreen")
-    }
-
-    resendOtp = (email, phone) => {
-
-        Keyboard.dismiss();
-        // this.props.hitResendOtpApi(email.trim(), phone)
-        //     .then(
-        //         (data) => {
-        //             this.onResendOtpSuccess(data);
-        //         }
-        //     ).catch((error) => {
-        //         if (error.msg) {
-        //             Toast.show(error.msg)
-        //         } else {
-        //             Toast.show(strings.wentWrong)
-        //         }
-        //     });
-    }
 
     onResendOtpSuccess = (data) => {
-        console.log("Data", data)
-        Toast.show(strings.otpSuccess)
+        Toast.show(String_Var.otpSuccess)
         this.setState({
             otp: ["", "", "", ""],
             current: 0,
@@ -187,42 +148,43 @@ class OtpScreen extends Component {
 
 
     render() {
-        // console.log("Phone", this.props.route.params.phone, "countryCode", this.props.navigation.getParam('countryCode'), "email", this.props.navigation.getParam('email'))
         const { navigation } = this.props;
         const phone = this.props.route.params.phone
         const countryCode = this.props.route.params.countryCode
         const email = this.props.route.params.email
+        let Style_Var = getStyleProps(this.props.theme.color);
+        let String_Var = getLanguageString(this.props.theme.lang);
+        let Image_Var = getImageByTheme(this.props.theme.color);
 
         return (
-            <SafeAreaView style={style.fullScreen}>
-                <View style={style.HeaderContainer}>
-                    <View style={style.SignUpHeading}>
-                        <TouchableOpacity onPress={()=>{this.props.navigation.goBack()}}><Image source={Images.Back} style={style.BackButton}/></TouchableOpacity>
-                        <Text style={style.HeaderText}>User Account Verification</Text>
+            <SafeAreaView style={Style_Var.fullScreen}>
+                <View style={Style_Var.HeaderContainer}>
+                    <View style={Style_Var.SignUpHeading}>
+                        <TouchableOpacity onPress={() => { this.props.navigation.goBack() }}><Image source={Image_Var.Back} style={Style_Var.BackButton} /></TouchableOpacity>
+                        <Text style={Style_Var.HeaderText}>{String_Var.user_account_verify}</Text>
                     </View>
                 </View>
-                
-                <View style={style.textContainer}>
-                    <Text style={style.text}>Enter 4 digit otp sent on your mobile and email</Text>
-                    <Text style={style.number}>{countryCode} {phone}, </Text>
-                    {/* <Text style={style.text}> and email :</Text> */}
-                    <Text style={style.number}>{email}</Text>
+
+                <View style={Style_Var.textContainer}>
+                    <Text style={Style_Var.text}>{String_Var.otp_direction}</Text>
+                    <Text style={Style_Var.number}>{countryCode} {phone}, </Text>
+                    {/* <Text style={Style_Var.text}> and email :</Text> */}
+                    <Text style={Style_Var.number}>{email}</Text>
                 </View>
-                <View style={style.inputContainer}>
+                <View style={Style_Var.inputContainer}>
                     {this.state.otp.map((item, index) => {
-                        console.log(index == this.state.current);
-                        return (<TextInput ref={index} key={index} value={item} maxLength={1} autoFocus={index == this.state.current} style={style.input} onChangeText={this.otpChangeHandler.bind(this, index)} keyboardType={'phone-pad'} />);
+                        return (<TextInput ref={index} key={index} value={item} maxLength={1} autoFocus={index == this.state.current} style={Style_Var.input} onChangeText={this.otpChangeHandler.bind(this, index)} keyboardType={'phone-pad'} />);
                     })}
                 </View>
-                <View style={style.SubmitButtonContainer}>
-                    <TouchableOpacity style={style.SubmitButton} onPress={()=>{this.submitHandler()}}><Text style={style.lable}>Submit</Text></TouchableOpacity>
+                <View style={Style_Var.SubmitButtonContainer}>
+                    <TouchableOpacity style={Style_Var.SubmitButton} onPress={() => { this.submitHandler() }}><Text style={Style_Var.lable}>{String_Var.submit}</Text></TouchableOpacity>
                 </View>
-                <View style={style.notRecievedContainer}>
-                    <Text style={style.notRecText}>{strings.DIDNT_RECIEVED_CODE}</Text>
+                <View style={Style_Var.notRecievedContainer}>
+                    <Text style={Style_Var.notRecText}>{String_Var.DIDNT_RECIEVED_CODE}</Text>
                 </View>
-                <TouchableOpacity onPress={() => { this.resendOtp(email, phone) }}>
-                    <View style={style.resendContainer}>
-                        <Text style={style.resend}>{strings.RESEND_CODE}</Text>
+                <TouchableOpacity onPress={() => { this.sendOtpCode(this.state.emailId, this.state.phone) }}>
+                    <View style={Style_Var.resendContainer}>
+                        <Text style={Style_Var.resend}>{String_Var.RESEND_CODE}</Text>
                     </View>
                 </TouchableOpacity>
 
@@ -232,11 +194,15 @@ class OtpScreen extends Component {
 }
 const mapStateToProps = (state) => {
     const { verifyOtpResponse } = state.OtpReducer;
+    const {
+        themeReducer
+    } = state;
     return {
-        verifyOtpResponse: verifyOtpResponse
+        verifyOtpResponse: verifyOtpResponse,
+        theme: themeReducer.theme
     };
 };
-let otpContainer = connect(mapStateToProps, { ...actions })(OtpScreen);
+let otpContainer = connect(mapStateToProps, { ...actions,...loginAction })(OtpScreen);
 let OtpWithLoader = APILoadingHOC(otpContainer);
 
 OtpWithLoader.getIntent = () => {

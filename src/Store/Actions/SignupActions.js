@@ -1,7 +1,7 @@
 import ApiEndpoints from '../../ApiManager/ApiEndpoint'
 import { SIGNUP } from '../../ApiManager/ApiEndpoint'
 import ApiSingleton from '../../ApiManager/ApiSingleton';
-
+import {SHA256} from '../../Utilities/Utils'
 import {
     ON_USER_SIGNUP_SUCCESS, ON_USER_SIGNUP_FAILURE
 } from './ActionsTypes'
@@ -26,7 +26,7 @@ export const onSignupFailureAction = (data) => {
 //============================= signup request api===================//
 
 //POST REQUEST
-export const hitSignupApi = ({name, email, country_code, phone, password}) =>
+export const hitSignupApi = ({name, email, country_code, phone, password, token="", id="", sign_up_type=0}) =>
 
     (dispatch) => {
         
@@ -40,7 +40,10 @@ export const hitSignupApi = ({name, email, country_code, phone, password}) =>
                     name,
                     phone,
                     country_code,
-                    password,
+                    password:password&&password.length>0?SHA256(password):"",
+                    token,
+                    id,
+                    sign_up_type
                 }
                 
                 const apiUrl = ApiEndpoints(SIGNUP)

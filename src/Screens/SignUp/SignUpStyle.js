@@ -14,10 +14,13 @@ export const getStyleProps=(theme)=>{
         },
         HeaderText:{
             color:Color[theme]['White'],
-            fontSize:30
+            fontSize:30,
+            marginLeft:20
         },
         SignUpHeading:{
-            marginTop:heightScale(90),
+            marginTop:heightScale(70),
+            flexDirection:'row',
+            alignItems:'center'
             
         },
         FormContainer:{
@@ -28,16 +31,18 @@ export const getStyleProps=(theme)=>{
         },
         Input:{
             borderBottomWidth:1,
+            marginTop:5,
             borderBottomColor:Color[theme]['Gray'],
-            padding:0,
-            color:Color.White,
+            padding:4,
+            color:Color[theme]['White'],
             fontSize:15
             // backgroundColor:'red'
         },
         RongInput:{
             borderBottomWidth:1,
+            marginTop:5,
             borderBottomColor:Color[theme]['Red'],
-            padding:0,
+            padding:4,
             color:Color[theme]['White'],
             fontSize:15
             // backgroundColor:'red'
@@ -84,7 +89,8 @@ export const getStyleProps=(theme)=>{
         },
         SocialWrapper:{
             width:'100%',
-            alignItems:'center'
+            alignItems:'center',
+            marginBottom: 20
         },
         SocialButton:{
             width:70,
@@ -93,6 +99,10 @@ export const getStyleProps=(theme)=>{
             alignItems:'center',
             justifyContent:'center',
             borderRadius:35
+        },
+        BackButton:{
+            height:20,
+            width:20
         }
     
     }

@@ -21,8 +21,10 @@ import FirebaseSingleton from './src/Singleton/Firebase';
 import APILoadingHOC from "./src/Components/HOCS/APILoadingHOC";
 import { connect } from 'react-redux';
 import * as actions from './src/Store/Actions/ThemeAction';
+import * as loginAction from './src/Store/Actions/LoginActions'
 import {getThemeSettings} from './src/Constants/Settings';
 import {getThemeColor} from './src/Constants/Color'
+import { ScrollView } from 'react-native-gesture-handler';
 
 let Firebase = FirebaseSingleton.getInstance()
 let AppAsync = AppUser.getInstance()
@@ -31,16 +33,26 @@ class App extends React.Component {
   
   async componentDidMount() {
     AppAsync.setInstance()
+    await this.setupTheme();
+    await this.RestorReducer()
     Firebase.FirebaseInit()
     Firebase.backGroundHandler()
-    await this.setupTheme();
     SplashScreen.hide();
+  }
+
+  async RestorReducer(){
+    let data = await AppAsync.getAsyncData();
+    if(data && data.token){
+      let status = await this.props.RestoreReducer(data)
+    }
   }
 
   async setupTheme(){
     let colorScheme = await AppAsync.getAsyncData('colorScheme')
     if(!colorScheme){
-      colorScheme = Appearance.getColorScheme()
+      colorScheme = Appearance.getColorScheme() == "dark"?"dark":"light"
+      console.log("GETTING : : :",colorScheme)
+      
       AppAsync.setAsyncData('colorScheme',colorScheme)
     }
 
@@ -64,7 +76,9 @@ class App extends React.Component {
     <>
       {Platform.OS === 'ios' && <StatusBar barStyle={getThemeSettings(this.props.theme.color).Status_bar}/>}
       <SafeAreaView style={{flex:1,backgroundColor:getThemeColor(this.props.theme.color).Main_BackGround}}>
+        {/* <ScrollView style={{flex:1}}> */}
           <Navigation/>
+        {/* </ScrollView> */}
       </SafeAreaView>
     </>
   );
@@ -81,12 +95,13 @@ const mapStateToProps = (state) => {
 
 
 
+
   return {
     theme: themeReducer.theme
   };
 
 };
-let AppContainer = connect(mapStateToProps, { ...actions })(App);
+let AppContainer = connect(mapStateToProps, { ...actions,...loginAction })(App);
 let AppWithLoader = APILoadingHOC(AppContainer);
 
 AppWithLoader.getIntent = () => {

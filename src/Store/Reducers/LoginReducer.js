@@ -6,14 +6,16 @@ import {
 
 // initial state for login 
 const INITIAL_STATE = {
-    loginResponse: {}
+    loginResponse: {},
+    authenticated:false
 }
 export default function loginReducer(state = INITIAL_STATE, action) {
     switch (action.type) {
         case ON_USER_LOGIN_SUCCESS:
             return {
                 ...state,
-                loginResponse: (action.payload)
+                loginResponse: (action.payload.user),
+                authenticated: true
             }
         case ON_USER_LOGIN_FAILURE:
             return {

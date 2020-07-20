@@ -9,7 +9,7 @@ import {
     LOGOUT
 } from "../../ApiManager/ApiEndpoint";
 import ApiSingleton from '../../ApiManager/ApiSingleton';
-import AppUser from "../../utilities/AppUser";
+// import AppUser from "../../utilities/AppUser";
 
 
 
@@ -41,26 +41,26 @@ export function logoutRequestApi(eventID) {
 
                 let url = ApiEndpoint(LOGOUT);
 
-                const authToken = AppUser.getInstance().token;
+                // const authToken = AppUser.getInstance().token;
                 const onSuccessCallback = (data) => {
 
-                    dispatch(onLogoutSuccessAction(data))
-                    resolve(data);
+                    dispatch(onUserLogout("data"))
+                    resolve("data");
 
                 };
                 const onFailureCallback = (error) => {
-                    dispatch(onLogoutFailureAction(data))
-                    reject(error);
+                    dispatch(onLogoutFailureAction("data"))
+                    reject("error");
                 };
 
                 const apiActionPayload = {
                     url: url,
-                    method: "GET",
+                    method: "POST",
                     onSuccess: onSuccessCallback,
                     onFailure: onFailureCallback,
                     label: LOGOUT,
                     headersOverride: {
-                        authorization: authToken,
+                        // authorization: authToken,
                         app_language: 'en',
                         event_id: eventID != null ? eventID : null
                     }

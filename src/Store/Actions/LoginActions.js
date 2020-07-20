@@ -2,9 +2,12 @@ import AsyncStorage from '@react-native-community/async-storage';
 import ApiEndpoints from '../../ApiManager/ApiEndpoint'
 import { LOGIN, GOOGLE_LOGIN, FB_LOGIN } from '../../ApiManager/ApiEndpoint'
 import ApiSingleton from '../../ApiManager/ApiSingleton';
-import AppUser from "../../utilities/AppUser";
+import AppUser from "../../Singleton/AsyncStorage";
+import AppAsync from "../../Singleton/AsyncStorage";
 import { Platform } from 'react-native';
+import {SHA256} from '../../Utilities/Utils'
 
+const AppAsyncIns = AppAsync.getInstance()
 import {
     ON_USER_LOGIN_SUCCESS, ON_USER_LOGIN_FAILURE,
     ON_GOOGLE_LOGIN_SUCCESS, ON_GOOGLE_LOGIN_FAILURE,
@@ -55,18 +58,28 @@ export const onFbLoginFailureAction = (data) => {
     }
 }
 
+export const RestoreReducer = (user) => (dispatch) => {
+    return new Promise((resolve, reject) => {
+        dispatch(onLoginSuccessAction({user}))
+        resolve(true)
+    })
+}
+
 //============================= login request api===================//
 
 //POST REQUEST
-export const hitUserLoginApi = (emailId, userPass) =>
+export const hitUserLoginApi = ({email, password, log_in_type = 0, token="", id=0}) =>
     (dispatch) => {
 
         return new Promise((resolve, reject) => {
 
             const parameters = {
-                email: emailId,
-                password: userPass,
+                email: email,
+                password: password&&password.length>0?SHA256(password):"",
+                log_in_type: log_in_type,
                 device_token: "qwerty",
+                token:token,
+                id:id,
                 device_type: Platform.OS === 'android' ? "1" : "2"
 
             }
@@ -76,20 +89,17 @@ export const hitUserLoginApi = (emailId, userPass) =>
                 url: loginUrl,
                 method: "POST",
                 onSuccess: async (data) => {
-                    let appUsrObj = AppUser.getInstance();
-                    appUsrObj.token = data.user.token;
-                    appUsrObj.userId = data.user.id;
-                    appUsrObj.userDetails = data.user;
-
-                    const userToken = ["@USER_TOKEN", data.user.token];
-                    const userId = ["@USER_ID", data.user.id.toString()];
-                    const userDetails = ["@USER_DETAILS", JSON.stringify(data.user)];
-                    try {
-                        await AsyncStorage.multiSet([userToken, userId, userDetails])
-                    } catch (e) {
-                        console.log("Error saving user details", e);
+                    // console.log("DATA : : : : ",data)
+                    if(data && data.user){
+                        let user = {...data.user,token:data.token}
+                        let key_list = Object.keys(user);
+                        console.log("BEFORE WRITTING DATA : : : ",user)
+                        for(let i = 0; i<key_list.length;i++){
+                            console.log("WRITING KEY : : : ",key_list[i] ," _ _ VALUE _ _ ",user[key_list[i]],"\n\n\n")
+                            await AppAsyncIns.setAsyncData(key_list[i],user[key_list[i]])
+                        }
+                        AppAsyncIns.setAsyncData('authenticated',true)
                     }
-                    console.log("data", data);
                     dispatch(onLoginSuccessAction(data));
                     resolve((data));
 

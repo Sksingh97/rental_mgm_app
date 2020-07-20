@@ -44,6 +44,16 @@
 				<string>fb1121330131579544</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>google other</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>659153366205-25dsl9dcaim3dj117p1qi97op50jtom4.apps.googleusercontent.com</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>

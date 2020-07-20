@@ -33,6 +33,7 @@ class AppUser {
     }
 
     async setAsyncData(key,value){
+        console.log("SET VALUE : : : for : ",key, "Value : : ",value)
         let old_data = await AsyncStorage.getItem('USER_DATA');
         let new_data = {}
         if(old_data){
@@ -49,10 +50,14 @@ class AppUser {
         let async_data = await AsyncStorage.getItem('USER_DATA');
         if(async_data){
             async_data=JSON.parse(async_data);
-            return async_data[key]
+            return key?async_data[key]:async_data
         }else{
             return null
         }
+    }
+
+    async clearStorage(){
+        await AsyncStorage.setItem('USER_DATA',JSON.stringify({}))
     }
 
 }
