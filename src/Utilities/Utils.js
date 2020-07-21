@@ -331,7 +331,12 @@ export const convertStrISOIntoTime = (timestamp) => {
 };
 
 export const RegisterDevice = (data) => {
-  axios.post(ApiEndpoint(REGISTER_DEVICE),data).then(data=>{
+  let token = data.token
+  delete data.token 
+  axios.post(ApiEndpoint(REGISTER_DEVICE),data,{headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `${token}`
+}}).then(data=>{
     console.log("SUCCESS : : : ",data);
   })
   .catch(err=>{

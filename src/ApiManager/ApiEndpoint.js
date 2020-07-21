@@ -1,7 +1,7 @@
 
 //export const BASE_DEV_URL = "";      // 
 //export const BASE_DEV_URL = ""            // aws development
-export const BASE_DEV_URL = "http://bcdf687db21b.ngrok.io"       // Production
+export const BASE_DEV_URL = "http://a751820bc4f0.ngrok.io"       // Production
 
 
 // export const GEO_CODER_API = ""
