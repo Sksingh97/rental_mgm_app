@@ -74,7 +74,7 @@ class App extends React.Component {
   render (){
   return (
     <>
-      {Platform.OS === 'ios' && <StatusBar barStyle={getThemeSettings(this.props.theme.color).Status_bar}/>}
+      <StatusBar   backgroundColor={getThemeColor(this.props.theme.color).Main_BackGround} barStyle={getThemeSettings(this.props.theme.color).Status_bar}/>
       <SafeAreaView style={{flex:1,backgroundColor:getThemeColor(this.props.theme.color).Main_BackGround}}>
         {/* <ScrollView style={{flex:1}}> */}
           <Navigation/>

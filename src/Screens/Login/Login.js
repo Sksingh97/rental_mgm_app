@@ -44,7 +44,7 @@ class LogIn extends React.Component {
     componentDidMount() {
         Theme.setup();
         this.setState({
-            email: "shudhanshu88@gmail.com",
+            email: "Iostest@mailinator.com",
             password: "Qwerty@123",
             error_email: false,
             attempt: false,

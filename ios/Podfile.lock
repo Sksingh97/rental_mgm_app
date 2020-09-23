@@ -453,7 +453,7 @@ PODS:
     - React
   - RNScreens (2.9.0):
     - React
-  - RNVectorIcons (4.6.0):
+  - RNVectorIcons (7.0.0):
     - React
   - Toast (4.0.0)
   - Yoga (1.14.0)
@@ -718,11 +718,11 @@ SPEC CHECKSUMS:
   RNGoogleSignin: 6baed9bb19c9c54614bef63bdc55c381b4e33c44
   RNReanimated: b5ccb50650ba06f6e749c7c329a1bc3ae0c88b43
   RNScreens: c526239bbe0e957b988dacc8d75ac94ec9cb19da
-  RNVectorIcons: a3c395829c56e2cb054a0730126298bf805a2dca
+  RNVectorIcons: da6fe858f5a65d7bbc3379540a889b0b12aa5976
   Toast: 91b396c56ee72a5790816f40d3a94dd357abc196
   Yoga: 3ebccbdd559724312790e7742142d062476b698e
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
-PODFILE CHECKSUM: aada1809569ec18c4776eca3e980e0bee503b366
+PODFILE CHECKSUM: 18af14fca07c0926a6d9736b20b6d3005d32c46b
 
 COCOAPODS: 1.9.3

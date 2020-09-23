@@ -9,18 +9,47 @@ const Theme_Color = {
         LightPurple : "#5D5AA8",
         Red : "red",
         INPUT_BORDER : "blue",
-        NAV_TEXT:"#fff"
+        NAV_TEXT:"#fff",
+        TabBackground:'#2A2942',
+        searchBackground:'#35314E',
+        JustAdded:'#8F00FF',
+        JustAddedText:'#fff',
+        FeatureText:'#FF6100',
+        Premium:'#45AC31',
+        New:'#0044D5',
+        ListItem:'#f57242',
+        ButtonContainer:'#B1C5F1',
+        ButtonColor:'#769EFF',
+        Selected:'#8DFFBC',
+        Orange:'#FF9933'
+
     },
     light:{
-        Main_BackGround :"#d7d7d7",
+        Main_BackGround :"#eee",
         White :"#000",
         OffWhite :"#000",
         PlaceHolder:"#808080",
-        Gray : "#B7B7B7",
+        Gray : "#444",
         LightPurple : "#5D5AA8",
         Red : "red",
         INPUT_BORDER : "blue",
-        NAV_TEXT:"blue"
+        NAV_TEXT:"blue",
+        TabBackground:'#eee',
+        searchBackground:'#eee',
+        JustAdded:'#8F00FF',
+        JustAddedText:'#fff',
+        FeatureText:'#FF6100',
+        Premium:'#2AFF00',
+        New:'#0044D5',
+        ListItem:'#f57242',
+        ButtonContainer:'#B1C5F1',
+        ButtonColor:'#769EFF',
+        Selected:'#8DFFBC',
+        Orange:'#FF9933'
+
+
+
+
     }
 }
 

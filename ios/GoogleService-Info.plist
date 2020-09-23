@@ -26,6 +26,8 @@
 	<true/>
 	<key>IS_GCM_ENABLED</key>
 	<true/>
+	<key>CFBundleIdentifier</key>
+	<string>/Users/sk/workspace/rental_mgm_app/ios/Pods/Headers/Public/Flipper-Folly/folly/io/async/HHWheelTimer.h:20:10: In file included from /Users/sk/workspace/rental_mgm_app/ios/Pods/Headers/Public/Flipper-Folly/folly/io/async/HHWheelTimer.h:20:</string>
 	<key>IS_SIGNIN_ENABLED</key>
 	<true/>
 	<key>GOOGLE_APP_ID</key>

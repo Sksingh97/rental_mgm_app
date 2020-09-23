@@ -90,8 +90,9 @@ export const hitUserLoginApi = ({email, password, log_in_type = 0, token="", id=
                 method: "POST",
                 onSuccess: async (data) => {
                     // console.log("DATA : : : : ",data)
+                    let user = {}
                     if(data && data.user){
-                        let user = {...data.user,token:data.token}
+                        user={...data.user,token:data.token}
                         let key_list = Object.keys(user);
                         console.log("BEFORE WRITTING DATA : : : ",user)
                         for(let i = 0; i<key_list.length;i++){
@@ -100,7 +101,7 @@ export const hitUserLoginApi = ({email, password, log_in_type = 0, token="", id=
                         }
                         AppAsyncIns.setAsyncData('authenticated',true)
                     }
-                    dispatch(onLoginSuccessAction(data));
+                    dispatch(onLoginSuccessAction({user}));
                     resolve((data));
 
                 },

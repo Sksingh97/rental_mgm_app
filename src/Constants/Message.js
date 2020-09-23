@@ -119,6 +119,17 @@ const strings = {
     otp_direction:"Enter 4 digit otp sent on your mobile and email",
     submit:"Submit",
     DO_NOT_HAVE_AN_ACCOUNT:"Do not have an account ?",
+    preferences:"Preferences",
+    Appearance:"Appearance",
+    Dark:"Dark",
+    Light:"Light",
+    Language:"Language",
+    English:"English",
+    Hindi:"Hindi",
+    WhoAreYou:'Who Are You',
+    PropertyOwner:"Property Owner",
+    PropertySeeker:"Property Seekeer",
+    GoNext:"Continue"
   },
   hi:{
     LOGIN: 'लॉग इन करें',
@@ -237,9 +248,18 @@ const strings = {
     user_account_verify:"उपयोगकर्ता खाता सत्यापन",
     otp_direction: "अपने मोबाइल और ईमेल पर भेजे गए 4 अंकों का ओटीपी दर्ज करें",
     submit:"जमा करें",
-    DO_NOT_HAVE_AN_ACCOUNT:"क्या आपका कोई खाता नहीं है ?"
-
-
+    DO_NOT_HAVE_AN_ACCOUNT:"क्या आपका कोई खाता नहीं है ?",
+    preferences:"पसंद",
+    Appearance:"दिखावट",
+    Dark:'काला',
+    Light:"सफेद",
+    Language:"भाषा",
+    English:"अंग्रेज़ी",
+    Hindi:"हिन्दी",
+    WhoAreYou:"तुम कौन हो",
+    PropertyOwner:"सम्पत्ति का मालिक",
+    PropertySeeker:"संपत्ति खोजें",
+    GoNext:"आगे बढ़ो"
   }
   }
 

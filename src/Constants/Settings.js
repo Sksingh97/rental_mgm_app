@@ -1,9 +1,11 @@
 const Theme_Setting =  {
     dark:{
-        Status_bar:'light-content'
+        Status_bar:'light-content',
+        
     },
     light:{
-        Status_bar:'dark-content'
+        Status_bar:'dark-content',
+
     }
 }
 
